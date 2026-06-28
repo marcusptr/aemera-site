@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comprendre sa santé clairement, sans attendre | AEMERA</title>
+<meta name="description" content="Analysez vos symptômes, vos bilans ou votre forme générale grâce à l'IA. Une réponse claire et personnalisée en moins d'une heure. Informatif, ne remplace pas un médecin.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23FAF8F3'/%3E%3Cpath d='M50 22 L74 78 L60 78 L50 52 L40 78 L26 78 Z' fill='%230A3D31'/%3E%3Cpath d='M50 22 L50 52 L40 78 L26 78 Z' fill='%2384A593'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --stone: #EAE5DB;
+  --pearl: #FAF8F3;
+  --sage: #84A593;
+  --forest: #0A3D31;
+  --forest-mid: #1A6B50;
+  --ink: #2B2823;
+  --mist: #D9D2C2;
+  --forest-10: rgba(10,61,49,.10);
+  --forest-06: rgba(10,61,49,.06);
+  --sage-12: rgba(132,165,147,.14);
+  --ink-60: rgba(43,40,35,.60);
+  --ink-30: rgba(43,40,35,.30);
+  --ink-08: rgba(43,40,35,.08);
+  --ease-out-expo: cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito Sans',sans-serif;color:var(--ink);background:var(--stone);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--forest);text-decoration:none}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+h1,h2,h3{font-family:'Poppins',sans-serif;font-weight:600;line-height:1.2}
+h1{font-size:clamp(2.2rem,5vw,3.4rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,3.5vw,2.4rem);letter-spacing:-.01em}
+h3{font-size:clamp(1.05rem,2vw,1.3rem);font-weight:500}
+p{max-width:640px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--forest);font-weight:500;margin-bottom:.75rem}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-60)}
+.container{max-width:1140px;margin:0 auto;padding:0 2rem}
+.section{padding:7rem 0;position:relative}
+.section+.section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(80%,900px);height:1px;background:var(--ink-08)}
+@media(max-width:768px){.section{padding:4.5rem 0}.container{padding:0 1.25rem}}
+
+/* PAGES (SPA) */
+.page{display:none}
+.page.active{display:block}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease-out-expo),transform .8s var(--ease-out-expo)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-s{opacity:0;transform:scale(.92);transition:opacity .7s var(--ease-out-expo),transform .7s var(--ease-out-expo)}
+.rv-s.vis{opacity:1;transform:scale(1)}
+.rv-l{opacity:0;transform:translateX(-35px);transition:opacity .8s var(--ease-out-expo),transform .8s var(--ease-out-expo)}
+.rv-l.vis{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(35px);transition:opacity .8s var(--ease-out-expo),transform .8s var(--ease-out-expo)}
+.rv-r.vis{opacity:1;transform:translateX(0)}
+.d1{transition-delay:0s}.d2{transition-delay:.1s}.d3{transition-delay:.2s}.d4{transition-delay:.3s}.d5{transition-delay:.4s}
+@media(prefers-reduced-motion:reduce){.rv,.rv-s,.rv-l,.rv-r{opacity:1;transform:none;transition:none}}
+
+/* ═══ PORTAIL — clair, avec ruban ═══ */
+.portail{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--pearl) 0%,var(--pearl) 55%,var(--stone) 100%)}
+/* watermark A monogram */
+.portail-mono{position:absolute;bottom:-4%;left:50%;transform:translateX(-50%);width:min(70vh,640px);opacity:.04;z-index:0;pointer-events:none}
+.portail-mono svg{width:100%;height:auto;display:block}
+/* ruban */
+.ruban{position:absolute;right:-4%;bottom:-6%;width:min(62vw,720px);z-index:1;pointer-events:none;filter:drop-shadow(0 24px 40px rgba(10,61,49,.16));clip-path:inset(0 0 100% 0);animation:rubanReveal 2s var(--ease-out-expo) .2s forwards}
+.ruban-float{animation:rubanFloat 12s ease-in-out infinite;will-change:transform}
+.ruban svg{width:100%;height:auto;display:block}
+@keyframes rubanReveal{to{clip-path:inset(0 0 0 0)}}
+@keyframes rubanFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.portail::before{content:'';position:absolute;width:680px;height:680px;top:46%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(132,165,147,.10) 0%,transparent 65%);pointer-events:none;z-index:1}
+.p-ring{position:absolute;border-radius:50%;border:1px solid var(--forest-06);top:46%;left:50%;transform:translate(-50%,-50%);pointer-events:none;animation:ringPulse 7s ease-out infinite;z-index:1}
+.p-ring:nth-of-type(2){animation-delay:2.3s}
+.p-ring:nth-of-type(3){animation-delay:4.6s}
+@keyframes ringPulse{0%{width:200px;height:200px;opacity:.7}100%{width:880px;height:880px;opacity:0}}
+.portail-brand{font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(3rem,9vw,6rem);color:var(--forest);letter-spacing:.02em;position:relative;z-index:3;opacity:0;transform:scale(.95);animation:brandIn 1s var(--ease-out-expo) .8s forwards}
+@keyframes brandIn{to{opacity:1;transform:scale(1)}}
+.portail-line{position:relative;width:min(60vw,440px);height:54px;margin:1.4rem 0 1rem;z-index:3;opacity:0;animation:fadeIn .6s ease-out 1.8s forwards}
+.portail-line svg{width:100%;height:100%}
+.pulse-main{fill:none;stroke:var(--forest);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2s cubic-bezier(.4,0,.15,1) 2s forwards}
+.pulse-glow{fill:none;stroke:var(--forest-mid);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1000;stroke-dashoffset:1000;opacity:.14;filter:blur(5px);animation:draw 2s cubic-bezier(.4,0,.15,1) 2s forwards}
+.p-dot{r:0;fill:var(--forest);animation:dotPop .5s var(--ease-out-expo) 3.6s forwards}
+.p-dot-glow{r:0;fill:var(--forest-mid);opacity:0;animation:dotBreath 3s ease-in-out 4s infinite}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes dotPop{to{r:4}}
+@keyframes dotBreath{0%,100%{r:4;opacity:0}50%{r:16;opacity:.12}}
+@keyframes fadeIn{to{opacity:1}}
+.portail-sub{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-60);z-index:3;opacity:0;animation:fadeIn .8s ease-out 2.4s forwards}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;z-index:3;opacity:0;animation:fadeIn .6s ease-out 4s forwards}
+.scroll-hint span{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-30)}
+.scroll-arrow{width:16px;height:16px;border-right:1.5px solid var(--ink-30);border-bottom:1.5px solid var(--ink-30);transform:rotate(45deg);animation:bounce 2s ease-in-out 4.4s infinite}
+@keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
+@media(prefers-reduced-motion:reduce){
+  .ruban{clip-path:inset(0 0 0 0);animation:none}
+  .ruban-float{animation:none}
+  .portail-brand,.portail-line,.portail-sub,.scroll-hint{opacity:1;transform:none;animation:none}
+  .pulse-main,.pulse-glow{stroke-dashoffset:0;animation:none}
+  .p-dot{r:4;animation:none}
+}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 0;background:rgba(250,248,243,0);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:padding .3s,background .4s,border-color .4s,opacity .4s;pointer-events:none;opacity:0}
+nav.show{opacity:1;pointer-events:all;background:rgba(250,248,243,.9);border-bottom-color:var(--ink-08)}
+nav.scrolled{padding:.5rem 0}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.2rem;color:var(--forest);letter-spacing:.02em;cursor:pointer}
+.nav-links{display:flex;align-items:center;gap:1.8rem;list-style:none}
+.nav-links a{font-size:.84rem;font-weight:600;color:var(--ink-60);transition:color .25s;cursor:pointer}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{font-family:'Poppins',sans-serif;font-size:.78rem;font-weight:600;background:var(--forest);color:var(--pearl)!important;padding:.5rem 1.2rem;border-radius:100px;transition:transform .25s,box-shadow .25s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--forest-10)}
+.nav-dropdown{position:relative}
+.nav-drop-trigger{display:inline-flex;align-items:center;gap:.35rem}
+.nav-caret{width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);margin-top:-3px;transition:transform .25s}
+.nav-dropdown:hover .nav-caret{transform:rotate(225deg);margin-top:2px}
+.nav-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);min-width:280px;background:var(--pearl);border:1px solid var(--ink-08);border-radius:16px;box-shadow:0 16px 48px rgba(10,61,49,.13);padding:.5rem;opacity:0;visibility:hidden;transition:opacity .25s var(--ease-out-expo),transform .25s var(--ease-out-expo);pointer-events:none}
+.nav-dropdown::after{content:'';position:absolute;top:100%;left:0;right:0;height:16px}
+.nav-dropdown:hover .nav-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(6px);pointer-events:all}
+.nav-menu a{display:flex;align-items:center;gap:.8rem;padding:.7rem .8rem;border-radius:11px;transition:background .2s}
+.nav-menu a:hover{background:var(--sage-12)}
+.nav-menu-ic{font-size:1.3rem;flex:none;width:32px;text-align:center}
+.nav-menu a strong{display:block;font-family:'Poppins',sans-serif;font-weight:500;font-size:.86rem;color:var(--ink)}
+.nav-menu a em{display:block;font-style:normal;font-size:.74rem;color:var(--ink-60)}
+.nav-mobile-toggle{display:none;background:none;border:none;cursor:pointer}
+.nav-mobile-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0}
+@media(max-width:768px){.nav-links{display:none}.nav-mobile-toggle{display:block}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--pearl);padding:2rem;border-bottom:1px solid var(--mist);gap:1.2rem}}
+
+/* BTNS */
+.btn-primary{font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;background:var(--forest);color:var(--pearl);padding:.82rem 1.9rem;border-radius:100px;border:none;cursor:pointer;transition:transform .3s var(--ease-out-expo),box-shadow .3s;display:inline-block;text-align:center;position:relative}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--forest-10)}
+.btn-secondary{font-family:'Nunito Sans',sans-serif;font-size:.86rem;font-weight:600;color:var(--forest);padding:.82rem 1.4rem;border:1.5px solid var(--forest);border-radius:100px;background:transparent;cursor:pointer;transition:background .25s,color .25s;display:inline-block;text-align:center}
+.btn-secondary:hover{background:var(--forest);color:var(--pearl)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem}
+.hero .container{display:grid;grid-template-columns:1.15fr .85fr;gap:4rem;align-items:center}
+.hero-text h1{margin-bottom:1.4rem}
+.hero-text h1 em{font-style:normal;color:var(--forest)}
+.hero-subtitle{font-size:1.04rem;color:var(--ink-60);line-height:1.75;margin-bottom:2.4rem}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.hero-legal{margin-top:1.1rem;font-size:.74rem;color:var(--ink-30)}
+.hero-visual{display:flex;align-items:center;justify-content:center;perspective:1000px}
+.hero-visual-mockup{background:var(--pearl);border-radius:20px;padding:2rem 1.6rem;width:100%;max-width:360px;border:1px solid var(--mist);position:relative;transform-style:preserve-3d;will-change:transform;transition:transform .15s ease-out}
+.hero-visual-mockup.resetting{transition:transform .6s var(--ease-out-expo)}
+.mock-header{display:flex;align-items:center;gap:.5rem;margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--mist)}
+.mock-dot{width:7px;height:7px;border-radius:50%;background:var(--mist)}
+.mock-dot.active{background:var(--forest)}
+.mock-line{height:7px;border-radius:5px;background:var(--mist)}
+.mock-line.w60{width:60%}.mock-line.w80{width:80%}.mock-line.w45{width:45%}.mock-line.w70{width:70%}
+.mock-line.accent{background:var(--sage)}
+.mock-block{margin-bottom:.9rem;display:flex;flex-direction:column;gap:.4rem;transform:translateZ(6px)}
+.mock-result{display:flex;align-items:center;gap:.6rem;padding:.55rem .75rem;border-radius:10px;background:var(--stone);margin-bottom:.35rem;transform:translateZ(10px);opacity:0;transition:opacity .5s var(--ease-out-expo)}
+.hero-visual-mockup.animated .mock-result{opacity:1}
+.hero-visual-mockup.animated .mock-result:nth-of-type(1){transition-delay:.1s}
+.hero-visual-mockup.animated .mock-result:nth-of-type(2){transition-delay:.25s}
+.hero-visual-mockup.animated .mock-result:nth-of-type(3){transition-delay:.4s}
+.mock-result .indicator{width:4px;height:24px;border-radius:2px;background:var(--forest)}
+.mock-result .indicator.warn{background:#C4A05A}
+.mock-result-lines{flex:1;display:flex;flex-direction:column;gap:3px}
+.hero-visual-badge{position:absolute;bottom:-10px;right:-10px;background:var(--forest);color:var(--pearl);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.05em;padding:.4rem .85rem;border-radius:100px;box-shadow:0 4px 16px var(--forest-10);transform:translateZ(30px)}
+@media(max-width:768px){.hero .container{grid-template-columns:1fr;gap:2.5rem}.hero-visual{order:-1}.hero-visual-mockup{max-width:290px;margin:0 auto}}
+
+/* PROMESSE */
+.promesse{text-align:center;padding:5rem 0;background:var(--pearl);overflow:hidden}
+.promesse-quote{font-family:'Poppins',sans-serif;font-size:clamp(3rem,8vw,5rem);color:var(--sage);line-height:1;opacity:0;transform:scale(1.3);transition:opacity .6s,transform .8s var(--ease-out-expo);display:inline-block}
+.promesse-quote.left{margin-right:.5rem}.promesse-quote.right{margin-left:.5rem}
+.promesse.animated .promesse-quote{opacity:1;transform:scale(1)}
+.promesse h2{font-size:clamp(1.3rem,3vw,1.85rem);font-weight:500;color:var(--forest);max-width:660px;margin:0 auto;line-height:1.45;display:inline}
+
+/* POINTS FORTS */
+.points-forts .points-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3rem}
+.point-card{background:var(--pearl);border-radius:16px;padding:1.8rem 1.5rem;border:1px solid transparent;transition:border-color .3s,transform .4s var(--ease-out-expo),box-shadow .4s;position:relative;overflow:hidden}
+.spot{position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none;background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%),var(--sage-12),transparent 70%)}
+.point-card:hover .spot,.routeur-card:hover .spot{opacity:1}
+.point-card:hover{border-color:var(--sage);transform:translateY(-4px);box-shadow:0 16px 40px rgba(10,61,49,.07)}
+.point-icon{width:42px;height:42px;border-radius:12px;background:var(--sage);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;color:var(--pearl);transition:transform .5s var(--ease-out-expo);position:relative}
+.point-card:hover .point-icon{transform:scale(1.1) rotate(-5deg)}
+.point-card h3{margin-bottom:.5rem;position:relative}
+.point-card p{font-size:.88rem;color:var(--ink-60);line-height:1.65;position:relative}
+@media(max-width:768px){.points-forts .points-grid{grid-template-columns:1fr}}
+
+/* ROUTEUR */
+.routeur{text-align:center;background:var(--pearl)}
+.routeur .section-intro{margin:0 auto 2rem;color:var(--ink-60);font-size:1rem}
+.routeur-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;margin-top:3rem}
+.routeur-card{background:var(--stone);border-radius:16px;padding:1.8rem 1.2rem 1.5rem;text-align:center;cursor:pointer;border:1.5px solid transparent;transition:border-color .3s,transform .4s var(--ease-out-expo),box-shadow .4s;display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink);position:relative}
+.routeur-card .shine{position:absolute;inset:0;border-radius:16px;overflow:hidden;pointer-events:none}
+.routeur-card .shine::before{content:'';position:absolute;top:0;left:-120%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:none}
+.routeur-card:hover .shine::before{left:160%;transition:left .8s ease}
+.routeur-card:hover{border-color:var(--forest);transform:translateY(-4px);box-shadow:0 14px 40px rgba(10,61,49,.10)}
+.routeur-card.phare{border-color:var(--forest);background:var(--pearl)}
+.routeur-card .badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;background:var(--forest);color:var(--pearl);padding:.22rem .7rem;border-radius:100px;white-space:nowrap;z-index:2}
+.routeur-icon{width:50px;height:50px;border-radius:50%;background:var(--pearl);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.25rem;transition:transform .5s var(--ease-out-expo);position:relative}
+.routeur-card.phare .routeur-icon{background:var(--stone)}
+.routeur-card:hover .routeur-icon{transform:scale(1.12) rotate(-4deg)}
+.routeur-card h3{font-size:.93rem;margin-bottom:.35rem;position:relative}
+.routeur-card p{font-size:.78rem;color:var(--ink-60);margin-bottom:.7rem;position:relative}
+.routeur-price{font-family:'Poppins',sans-serif;font-weight:600;color:var(--forest);font-size:1.02rem;margin-top:auto;position:relative}
+@media(max-width:900px){.routeur-grid{grid-template-columns:repeat(2,1fr);gap:1.4rem;padding-top:.5rem}}
+@media(max-width:520px){.routeur-grid{grid-template-columns:1fr;max-width:330px;margin:3rem auto 0;gap:1.6rem}}
+
+/* COMMENT */
+.comment-ca-marche{background:var(--pearl)}
+.steps-wrapper{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:3rem;position:relative}
+.steps-wrapper::before{content:'';position:absolute;top:30px;left:16.67%;right:16.67%;height:2px;background:var(--mist);z-index:0}
+.steps-wrapper .line-fill{position:absolute;top:30px;left:16.67%;height:2px;width:0;background:var(--forest);z-index:1;transition:width 1.4s var(--ease-out-expo)}
+.steps-wrapper.anim .line-fill{width:66.67%}
+.step{text-align:center;position:relative;z-index:2}
+.step-num{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;width:60px;height:60px;line-height:56px;border-radius:50%;margin:0 auto .8rem;background:var(--stone);color:var(--mist);border:2px solid var(--mist);transition:background .6s var(--ease-out-expo),color .6s,border-color .6s,transform .6s var(--ease-out-expo)}
+.steps-wrapper.anim .step-num{background:var(--forest);color:var(--pearl);border-color:var(--forest);transform:scale(1.05)}
+.steps-wrapper.anim .step:nth-child(3) .step-num{transition-delay:.3s}
+.steps-wrapper.anim .step:nth-child(4) .step-num{transition-delay:.6s}
+.step h3{margin-bottom:.35rem;margin-top:.5rem}
+.step p{font-size:.86rem;color:var(--ink-60);margin:0 auto;max-width:260px}
+@media(max-width:768px){.steps-wrapper{grid-template-columns:1fr;max-width:360px;margin:3rem auto 0;gap:2rem}.steps-wrapper::before,.steps-wrapper .line-fill{display:none}}
+
+/* APERCU */
+.apercu{background:var(--pearl)}
+.apercu .container{display:grid;grid-template-columns:1fr 1.15fr;gap:4rem;align-items:center}
+.apercu-text h2{margin-bottom:.9rem}
+.apercu-text p{color:var(--ink-60);margin-bottom:2rem}
+.apercu-mockup{background:var(--stone);border-radius:20px;padding:2rem;border:1px solid var(--mist)}
+.report-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:1rem;border-bottom:1px solid var(--mist);margin-bottom:1.2rem}
+.report-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:.92rem}
+.report-badge{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;background:var(--sage);color:var(--pearl);padding:.22rem .55rem;border-radius:100px}
+.report-section{margin-bottom:1.2rem}
+.report-section-title{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--forest);margin-bottom:.6rem}
+.report-marker{display:flex;align-items:center;gap:.7rem;padding:.65rem .8rem;background:var(--pearl);border-radius:12px;margin-bottom:.35rem;opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease-out-expo),transform .5s var(--ease-out-expo)}
+.apercu-mockup.anim .report-marker{opacity:1;transform:translateY(0)}
+.apercu-mockup.anim .report-marker:nth-child(1){transition-delay:.1s}
+.apercu-mockup.anim .report-marker:nth-child(2){transition-delay:.25s}
+.apercu-mockup.anim .report-marker:nth-child(3){transition-delay:.4s}
+.marker-name{font-weight:600;font-size:.83rem;flex:1}
+.marker-value{font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:500;min-width:74px;text-align:right}
+.marker-bar{width:64px;height:4px;background:var(--mist);border-radius:2px;overflow:hidden}
+.marker-bar-fill{height:100%;border-radius:2px;background:var(--forest);width:0;transition:width 1s cubic-bezier(.23,1,.32,1)}
+.marker-bar-fill.warn{background:#C4A05A}
+.apercu-mockup.anim .marker-bar-fill{width:var(--tw)}
+.apercu-mockup.anim .report-marker:nth-child(1) .marker-bar-fill{transition-delay:.3s}
+.apercu-mockup.anim .report-marker:nth-child(2) .marker-bar-fill{transition-delay:.5s}
+.apercu-mockup.anim .report-marker:nth-child(3) .marker-bar-fill{transition-delay:.7s}
+@media(max-width:768px){.apercu .container{grid-template-columns:1fr}.apercu-mockup{padding:1.3rem}}
+
+/* CTA DECOUVERTE (remplace bandeau) */
+.decouverte{background:var(--forest);color:var(--pearl);text-align:center;padding:5rem 2rem;position:relative;overflow:hidden}
+.decouverte::before{content:'';position:absolute;width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(132,165,147,.10),transparent 70%);pointer-events:none}
+.pp-dot{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(132,165,147,.18);animation:float 8s ease-in-out infinite}
+.pp-dot:nth-child(1){top:20%;left:15%;animation-delay:0s}.pp-dot:nth-child(2){top:70%;left:25%;animation-delay:2s;width:3px;height:3px}.pp-dot:nth-child(3){top:30%;right:20%;animation-delay:4s}.pp-dot:nth-child(4){top:65%;right:12%;animation-delay:1s;width:5px;height:5px}.pp-dot:nth-child(5){top:45%;left:8%;animation-delay:3s;width:3px;height:3px}
+@keyframes float{0%,100%{transform:translateY(0) scale(1);opacity:.3}50%{transform:translateY(-20px) scale(1.3);opacity:.6}}
+.decouverte h2{color:var(--pearl);margin-bottom:.5rem;font-size:clamp(1.3rem,3vw,1.9rem);position:relative}
+.decouverte p{color:rgba(245,242,235,.6);max-width:480px;margin:0 auto 2rem;font-size:.95rem;position:relative}
+.btn-light{font-family:'Poppins',sans-serif;font-size:.86rem;font-weight:600;background:var(--pearl);color:var(--forest);padding:.78rem 1.7rem;border-radius:100px;border:none;cursor:pointer;display:inline-block;transition:transform .3s var(--ease-out-expo),box-shadow .3s;position:relative}
+.btn-light:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.18)}
+
+/* FAQ */
+.faq .faq-grid{max-width:700px;margin:3rem auto 0}
+.faq-item{border-bottom:1px solid var(--mist)}
+.faq-question{width:100%;background:none;border:none;text-align:left;padding:1.3rem 0;font-family:'Nunito Sans',sans-serif;font-size:.93rem;font-weight:700;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;transition:color .25s}
+.faq-question:hover{color:var(--forest)}
+.faq-icon{width:28px;height:28px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--mist);display:flex;align-items:center;justify-content:center;transition:transform .35s var(--ease-out-expo),border-color .3s,background .3s}
+.faq-icon::before{content:'+';font-family:'Poppins',sans-serif;font-size:1rem;font-weight:400;color:var(--forest);line-height:1}
+.faq-item.open .faq-icon{transform:rotate(45deg);border-color:var(--forest);background:var(--forest)}
+.faq-item.open .faq-icon::before{color:var(--pearl)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .5s var(--ease-out-expo)}
+.faq-answer-inner{padding:0 0 1.3rem;font-size:.86rem;color:var(--ink-60);line-height:1.7}
+
+/* CTA FINAL */
+.cta-final{text-align:center;padding:6rem 0}
+.cta-final h2{margin-bottom:.7rem}
+.cta-final p{margin:0 auto 2.5rem;color:var(--ink-60)}
+.cta-pulse-wrap{position:relative;display:inline-block}
+.cta-pulse-wrap::before,.cta-pulse-wrap::after{content:'';position:absolute;inset:-6px;border-radius:100px;border:1.5px solid var(--forest);opacity:0;animation:ctaPulse 3s ease-out infinite;pointer-events:none}
+.cta-pulse-wrap::after{animation-delay:1.5s}
+@keyframes ctaPulse{0%{transform:scale(1);opacity:.3}100%{transform:scale(1.15);opacity:0}}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(245,242,235,.4);padding:3rem 0;font-size:.78rem}
+footer .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-family:'Poppins',sans-serif;font-weight:700;color:var(--pearl);font-size:.95rem;letter-spacing:.02em}
+.footer-meta{display:flex;flex-direction:column;gap:.2rem}
+.footer-fr{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage)}
+.footer-links{display:flex;gap:1.5rem;list-style:none;flex-wrap:wrap}
+.footer-links a{color:rgba(245,242,235,.4);transition:color .25s;cursor:pointer}
+.footer-links a:hover{color:var(--pearl)}
+.footer-disclaimer{width:100%;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(245,242,235,.07);font-size:.7rem;text-align:center;color:rgba(245,242,235,.25)}
+
+/* SUBPAGE shell */
+.subpage-wrap{padding-top:7rem;min-height:100vh}
+.back-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:600;color:var(--ink-60);margin-bottom:2rem;cursor:pointer;transition:color .25s}
+.back-link:hover{color:var(--forest)}
+.prod-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center;padding-bottom:3rem;border-bottom:1px solid var(--ink-08)}
+.prod-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--forest);background:var(--sage-12);padding:.3rem .8rem;border-radius:100px;margin-bottom:1rem}
+.prod-price{font-family:'Poppins',sans-serif;font-weight:700;font-size:2rem;color:var(--forest);margin:1rem 0}
+.prod-price small{font-size:.9rem;font-weight:400;color:var(--ink-60)}
+.prod-visual{background:var(--pearl);border:1px solid var(--mist);border-radius:20px;padding:2.5rem;min-height:280px;display:flex;align-items:center;justify-content:center}
+.prod-features{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin:3rem 0}
+.prod-feature{background:var(--pearl);border-radius:16px;padding:1.6rem;border:1px solid transparent;transition:border-color .3s,transform .3s}
+.prod-feature:hover{border-color:var(--sage);transform:translateY(-3px)}
+.prod-feature h3{font-size:1rem;margin-bottom:.5rem}
+.prod-feature p{font-size:.86rem;color:var(--ink-60)}
+.prod-legal{font-size:.78rem;color:var(--ink-30);margin-top:1.5rem}
+@media(max-width:768px){.prod-hero{grid-template-columns:1fr;gap:2rem}.prod-features{grid-template-columns:1fr}}
+
+/* CHOISIR */
+.choisir-free{display:flex;align-items:center;justify-content:space-between;gap:2rem;background:var(--forest);color:var(--pearl);border-radius:20px;padding:2.2rem 2.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.choisir-free h2{color:var(--pearl)}
+.choisir-free .prod-tag{color:var(--pearl);background:rgba(245,242,235,.16)}
+.choisir-free .btn-light{flex:none}
+.choisir-or{text-align:center;max-width:none;margin:2rem 0;position:relative;color:var(--ink-30)}
+.choisir-or::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--ink-08)}
+.choisir-or span{position:relative;background:var(--stone);padding:0 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+
+/* NEWS */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.news-card{background:var(--pearl);border:1px solid var(--mist);border-radius:18px;padding:1.8rem;display:flex;flex-direction:column;gap:.7rem;transition:border-color .3s,transform .3s}
+.news-card:hover{border-color:var(--sage);transform:translateY(-3px)}
+.news-tag{align-self:flex-start;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--forest);background:var(--sage-12);padding:.25rem .7rem;border-radius:100px}
+.news-card h3{font-size:1.05rem}
+.news-card p{font-size:.86rem;color:var(--ink-60)}
+.news-soon{margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-30)}
+@media(max-width:768px){.news-grid{grid-template-columns:1fr}.choisir-free{flex-direction:column;align-items:flex-start}}
+
+/* PREMIERS PAS */
+.pp-page{max-width:680px;margin:0 auto}
+.pp-head{text-align:center;margin-bottom:3rem}
+.pp-head h1{margin-bottom:1rem}
+.pp-head p{color:var(--ink-60);margin:0 auto}
+.pp-free-badge{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-top:1.5rem}
+.pp-free-badge span{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.04em;color:var(--forest);background:var(--sage-12);padding:.4rem .9rem;border-radius:100px}
+.pp-card{background:var(--pearl);border:1px solid var(--mist);border-radius:20px;padding:2.5rem}
+.slider-group{margin-bottom:2.2rem}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.8rem}
+.slider-label .name{font-family:'Poppins',sans-serif;font-weight:500;font-size:1rem}
+.slider-label .val{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--forest);font-weight:500}
+.slider-ends{display:flex;justify-content:space-between;font-size:.72rem;color:var(--ink-30);margin-top:.5rem}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:var(--mist);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--forest);border:3px solid var(--pearl);box-shadow:0 2px 8px var(--forest-10);cursor:pointer;transition:transform .2s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--forest);border:3px solid var(--pearl);cursor:pointer}
+.pp-result{margin-top:1rem;padding:1.8rem;background:var(--stone);border-radius:16px;text-align:center;transition:transform .3s}
+.pp-result .profile-name{font-family:'Poppins',sans-serif;font-weight:600;font-size:1.3rem;color:var(--forest);margin-bottom:.5rem}
+.pp-result .profile-desc{font-size:.9rem;color:var(--ink-60)}
+.pp-form{margin-top:2rem;display:flex;flex-direction:column;gap:.9rem}
+.pp-form input[type=email]{padding:.9rem 1.2rem;border:1.5px solid var(--mist);border-radius:100px;font-family:'Nunito Sans',sans-serif;font-size:.92rem;background:var(--pearl);color:var(--ink);transition:border-color .25s}
+.pp-form input[type=email]:focus{outline:none;border-color:var(--forest)}
+.pp-form .btn-primary{width:100%;padding:.95rem}
+.pp-success{display:none;margin-top:1rem;padding:1rem;background:var(--sage-12);border-radius:12px;text-align:center;font-size:.88rem;color:var(--forest);font-weight:600}
+.pp-success.show{display:block}
+.pp-legal{font-size:.72rem;color:var(--ink-30);text-align:center;margin-top:1rem}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAV (global) ═══════════ -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-brand" data-nav="accueil">AEMERA</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a data-nav="accueil" data-anchor="points-forts">Pourquoi AEMERA</a></li>
+      <li class="nav-dropdown">
+        <a data-anchor="routeur" data-nav="accueil" class="nav-drop-trigger">Nos analyses <span class="nav-caret"></span></a>
+        <div class="nav-menu">
+          <a data-nav="produit-sang"><span class="nav-menu-ic">🩸</span><span><strong>Analyse de prise de sang</strong><em>Le plus demandé</em></span></a>
+          <a data-nav="produit-symptome"><span class="nav-menu-ic">🔍</span><span><strong>Analyse de symptôme</strong><em>19 €</em></span></a>
+          <a data-nav="produit-bilan"><span class="nav-menu-ic">📊</span><span><strong>Bilan bien-être global</strong><em>14 €</em></span></a>
+          <a data-nav="produit-ebook"><span class="nav-menu-ic">📖</span><span><strong>Le guide AEMERA</strong><em>34 €</em></span></a>
+        </div>
+      </li>
+      <li><a data-nav="premiers-pas">Premiers pas</a></li>
+      <li><a data-nav="news">News</a></li>
+      <li><a data-nav="accueil" data-anchor="faq">FAQ</a></li>
+      <li><a class="nav-cta" data-nav="choisir">Commencer</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     PAGE — ACCUEIL
+     ═══════════════════════════════════════ -->
+<div class="page active" id="page-accueil">
+
+  <!-- PORTAIL -->
+  <section class="portail" id="portail">
+    <div class="portail-mono">
+      <svg viewBox="0 0 400 400"><path d="M200 40 L330 360 L270 360 L200 190 L130 360 L70 360 Z" fill="var(--forest)"/><path d="M200 40 L200 190 L130 360 L70 360 Z" fill="var(--sage)"/></svg>
+    </div>
+    <div class="ruban" id="ruban">
+      <div class="ruban-float">
+        <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0A3D31"/>
+              <stop offset="50%" stop-color="#1A6B50"/>
+              <stop offset="100%" stop-color="#84A593"/>
+            </linearGradient>
+            <linearGradient id="rg2" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#84A593"/>
+              <stop offset="100%" stop-color="#1A6B50"/>
+            </linearGradient>
+          </defs>
+          <path d="M120 480 C 200 360, 360 340, 440 240 C 500 165, 470 90, 380 110 C 300 128, 300 220, 380 250 C 470 284, 560 260, 560 360 C 560 460, 430 520, 300 520 C 220 520, 150 520, 120 480 Z" fill="url(#rg)" opacity="0.9"/>
+          <path d="M150 470 C 230 370, 370 350, 430 270 C 475 210, 455 150, 390 165 C 335 178, 340 235, 400 258" fill="none" stroke="url(#rg2)" stroke-width="26" stroke-linecap="round" opacity="0.55"/>
+          <path d="M180 500 C 280 430, 420 410, 500 340" fill="none" stroke="#FAF8F3" stroke-width="3" opacity="0.18"/>
+        </svg>
+      </div>
+    </div>
+    <div class="p-ring"></div><div class="p-ring"></div><div class="p-ring"></div>
+
+    <div class="portail-brand">AEMERA</div>
+    <div class="portail-line">
+      <svg viewBox="0 0 480 56" preserveAspectRatio="none">
+        <path class="pulse-glow" d="M0,28 L145,28 L185,28 L200,5 L218,53 L235,14 L252,42 L268,28 L285,28 L480,28"/>
+        <path class="pulse-main" d="M0,28 L145,28 L185,28 L200,5 L218,53 L235,14 L252,42 L268,28 L285,28 L480,28"/>
+        <circle class="p-dot" cx="480" cy="28"/>
+        <circle class="p-dot-glow" cx="480" cy="28"/>
+      </svg>
+    </div>
+    <div class="portail-sub">Votre santé, expliquée clairement</div>
+    <div class="scroll-hint"><span>Découvrir</span><div class="scroll-arrow"></div></div>
+  </section>
+
+  <!-- HERO -->
+  <section class="hero section" id="hero">
+    <div class="container">
+      <div class="hero-text">
+        <p class="eyebrow rv d1">Santé · Intelligence artificielle</p>
+        <h1 class="rv d2">Votre santé, enfin expliquée <em>clairement.</em><br>Sans attendre.</h1>
+        <p class="hero-subtitle rv d3">Vos symptômes, vos résultats de prise de sang ou votre forme générale — analysés et expliqués simplement, grâce à l'IA. Une réponse claire et personnalisée en moins d'une heure, pour comprendre et arriver préparé chez votre médecin.</p>
+        <div class="hero-ctas rv d4">
+          <a class="btn-primary" id="heroCta" data-nav="accueil" data-anchor="routeur">Analyser ma santé</a>
+          <a class="btn-secondary" data-nav="premiers-pas">Vous découvrez ? Faites le test</a>
+        </div>
+        <p class="hero-legal rv d5">Informatif, ne remplace pas un avis médical.</p>
+      </div>
+      <div class="hero-visual rv-r d2">
+        <div class="hero-visual-mockup" id="heroMockup">
+          <div class="mock-header"><div class="mock-dot active"></div><div class="mock-dot"></div><div class="mock-dot"></div><div style="flex:1"></div><span class="mono" style="font-size:.58rem">Rapport · 47 min</span></div>
+          <div class="mock-block"><div class="mock-line w80 accent"></div><div class="mock-line w60"></div></div>
+          <div class="mock-result"><div class="indicator"></div><div class="mock-result-lines"><div class="mock-line w70"></div><div class="mock-line w45"></div></div></div>
+          <div class="mock-result"><div class="indicator warn"></div><div class="mock-result-lines"><div class="mock-line w60"></div><div class="mock-line w80"></div></div></div>
+          <div class="mock-result"><div class="indicator"></div><div class="mock-result-lines"><div class="mock-line w80"></div><div class="mock-line w45"></div></div></div>
+          <div class="hero-visual-badge">● Livré dans l'heure</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMESSE -->
+  <section class="promesse" id="promesse">
+    <div class="container">
+      <p class="eyebrow rv-s" style="color:var(--forest)">Notre conviction</p>
+      <div style="display:flex;align-items:baseline;justify-content:center;flex-wrap:wrap;gap:0">
+        <span class="promesse-quote left">«</span><h2 class="rv-s d2">Une santé éclairée ne devrait pas être un privilège.</h2><span class="promesse-quote right">»</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- POINTS FORTS -->
+  <section class="section points-forts" id="points-forts">
+    <div class="container">
+      <p class="eyebrow rv">Pourquoi AEMERA</p><h2 class="rv">Trois raisons de nous faire confiance</h2>
+      <div class="points-grid">
+        <div class="point-card rv-s d1"><div class="spot"></div><div class="point-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><polyline points="10 5 10 10 13 12"/></svg></div><h3>Des réponses claires, en moins d'une heure.</h3><p>Pas deux semaines d'attente et d'inquiétude. Une explication compréhensible de vos symptômes ou de vos résultats — quand vous en avez besoin.</p></div>
+        <div class="point-card rv-s d2"><div class="spot"></div><div class="point-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19c5 0 8-3.6 8-8s-3-8-8-8-8 3.6-8 8 3 8 8 8z"/><path d="M7 10l2 2 4-4"/></svg></div><h3>Un éclairage, jamais un remplacement.</h3><p>AEMERA vous aide à comprendre et à préparer vos questions — pour un vrai dialogue avec votre médecin, pas à sa place.</p></div>
+        <div class="point-card rv-s d3"><div class="spot"></div><div class="point-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17v-2a3.5 3.5 0 0 0-3.5-3.5h-2A3.5 3.5 0 0 0 5 15v2"/><circle cx="9.5" cy="6" r="3"/><path d="M18 17v-1.5a3 3 0 0 0-2-2.8"/></svg></div><h3>Une santé claire, accessible à tous.</h3><p>Les outils d'analyse autrefois réservés aux initiés, rendus simples, chaleureux et abordables. Sans jargon, sans budget d'élite.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROUTEUR -->
+  <section class="section routeur" id="routeur">
+    <div class="container">
+      <p class="eyebrow rv">Nos analyses</p><h2 class="rv">Par où commencer ?</h2>
+      <p class="section-intro rv">Choisissez ce qui correspond à votre situation. Chaque analyse est personnalisée et livrée dans l'heure.</p>
+      <div class="routeur-grid">
+        <a class="routeur-card phare rv-s d1" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="shine"></div><div class="spot"></div><div class="routeur-icon">🩸</div><h3>J'ai une prise de sang à comprendre</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price">Bientôt disponible</span></a>
+        <a class="routeur-card rv-s d2" data-nav="produit-symptome"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">🔍</div><h3>J'ai un symptôme précis</h3><p>Fatigue, douleur, trouble du sommeil — une analyse ciblée.</p><span class="routeur-price"><span data-count="19">0</span> €</span></a>
+        <a class="routeur-card rv-s d3" data-nav="produit-bilan"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">📊</div><h3>Je veux faire le point</h3><p>Vue d'ensemble de votre forme, habitudes, axes d'amélioration.</p><span class="routeur-price"><span data-count="14">0</span> €</span></a>
+        <a class="routeur-card rv-s d4" data-nav="produit-ebook"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">📖</div><h3>Je veux comprendre l'IA santé</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price"><span data-count="34">0</span> €</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT -->
+  <section class="section comment-ca-marche" id="comment">
+    <div class="container">
+      <div style="text-align:center"><p class="eyebrow rv">Simple et rapide</p><h2 class="rv">Comment ça marche</h2></div>
+      <div class="steps-wrapper" id="stepsW">
+        <div class="line-fill"></div>
+        <div class="step rv d1"><div class="step-num">01</div><h3>Vous répondez</h3><p>Décrivez vos symptômes, uploadez vos résultats ou remplissez le questionnaire bien-être.</p></div>
+        <div class="step rv d2"><div class="step-num">02</div><h3>L'IA analyse</h3><p>Notre intelligence artificielle croise vos données avec des milliers de références médicales.</p></div>
+        <div class="step rv d3"><div class="step-num">03</div><h3>Vous comprenez</h3><p>Un rapport clair, personnalisé, livré dans votre boîte mail en moins d'une heure.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APERCU -->
+  <section class="section apercu" id="apercu">
+    <div class="container">
+      <div class="apercu-text"><p class="eyebrow rv-l">Ce que vous recevez</p><h2 class="rv-l d2">Un rapport que vous comprenez vraiment</h2><p class="rv-l d3">Pas de jargon médical ni de tableau incompréhensible. Chaque marqueur est expliqué dans un langage clair, avec des repères visuels et des recommandations personnalisées.</p><a class="btn-primary rv-l d4" data-nav="accueil" data-anchor="routeur">Découvrir nos analyses</a></div>
+      <div class="apercu-mockup rv-r" id="apercuM">
+        <div class="report-header"><span class="report-title">Rapport personnalisé</span><span class="report-badge">Généré par IA</span></div>
+        <div class="report-section"><div class="report-section-title">Marqueurs analysés</div>
+          <div class="report-marker"><span class="marker-name">Fer sérique</span><span class="marker-value">72 µg/dL</span><div class="marker-bar"><div class="marker-bar-fill" style="--tw:65%"></div></div></div>
+          <div class="report-marker"><span class="marker-name">TSH</span><span class="marker-value">4.8 mUI/L</span><div class="marker-bar"><div class="marker-bar-fill warn" style="--tw:82%"></div></div></div>
+          <div class="report-marker"><span class="marker-name">Vitamine D</span><span class="marker-value">28 ng/mL</span><div class="marker-bar"><div class="marker-bar-fill" style="--tw:45%"></div></div></div>
+        </div>
+        <div class="report-section"><div class="report-section-title">Explication</div><div style="display:flex;flex-direction:column;gap:4px"><div class="mock-line w80"></div><div class="mock-line w60"></div><div class="mock-line w70"></div><div class="mock-line w45 accent"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECOUVERTE (CTA vers Premiers pas) -->
+  <section class="decouverte">
+    <div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div><div class="pp-dot"></div>
+    <div class="container"><p class="eyebrow rv" style="color:rgba(245,242,235,.4)">Vous découvrez ?</p><h2 class="rv d2">2 minutes pour comprendre ce qu'AEMERA peut faire pour vous.</h2><p class="rv d3">Un court questionnaire pour cerner votre besoin, découvrir notre approche, et recevoir notre guide gratuit.</p><a class="btn-light rv d4" data-nav="premiers-pas">Faire le test →</a></div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <div style="text-align:center"><p class="eyebrow rv">Questions fréquentes</p><h2 class="rv">Tout ce que vous devez savoir</h2></div>
+      <div class="faq-grid">
+        <div class="faq-item rv d1"><button class="faq-question">Est-ce qu'AEMERA remplace un médecin ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Non, et c'est un choix assumé. AEMERA est un outil d'éclairage : il vous aide à comprendre vos résultats et à préparer vos questions pour votre médecin. Nos rapports sont informatifs et ne constituent jamais un avis médical.</div></div></div>
+        <div class="faq-item rv d2"><button class="faq-question">En combien de temps je reçois mon rapport ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">En moins d'une heure après validation de votre commande. Votre rapport personnalisé est livré directement dans votre boîte mail.</div></div></div>
+        <div class="faq-item rv d3"><button class="faq-question">Que deviennent mes données de santé ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Vos données sont utilisées uniquement pour générer votre rapport, puis supprimées. Nous ne les revendons jamais, ne les partageons avec aucun tiers, et respectons le RGPD. Pour les analyses de prise de sang, un consentement explicite vous est demandé.</div></div></div>
+        <div class="faq-item rv d4"><button class="faq-question">Quelle est la différence entre vos analyses ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">L'Analyse de Symptôme (19 €) se concentre sur un problème précis. Le Bilan Global (14 €) offre une vue d'ensemble. L'Analyse de Prise de Sang interprète vos résultats marqueur par marqueur. L'Ebook (34 €) est un guide pour comprendre l'IA santé.</div></div></div>
+        <div class="faq-item rv d5"><button class="faq-question">C'est fiable ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Notre IA s'appuie sur des bases de données médicales validées et croise des milliers de références. Le résultat est un éclairage informé — pas un diagnostic. On vous recommande d'en discuter avec votre médecin, rapport en main.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final section">
+    <div class="container">
+      <p class="eyebrow rv-s">Prêt à comprendre ?</p><h2 class="rv-s d2">Votre santé mérite une réponse claire.</h2><p class="rv-s d3">Choisissez l'analyse qui vous correspond — recevez votre rapport personnalisé en moins d'une heure.</p>
+      <div class="cta-pulse-wrap rv-s d4"><a class="btn-primary" id="ctaFinal" data-nav="choisir">Commencer maintenant</a></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE — PREMIERS PAS
+     ═══════════════════════════════════════ -->
+<div class="page" id="page-premiers-pas">
+  <div class="subpage-wrap section">
+    <div class="container">
+      <div class="pp-page">
+        <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
+        <div class="pp-head">
+          <p class="eyebrow" style="display:inline-block">Premiers pas</p>
+          <h1>Recevez votre guide AEMERA, <span style="color:var(--forest-mid)">gratuitement</span></h1>
+          <p>Trois questions, deux minutes. On cerne votre besoin, on vous oriente, et on vous envoie notre guide <strong>« Comment ça marche »</strong> — <strong>offert, sans engagement, sans carte bancaire.</strong></p>
+          <div class="pp-free-badge"><span>✓ 100&nbsp;% gratuit</span><span>✓ Aucun paiement</span><span>✓ Désinscription en 1 clic</span></div>
+        </div>
+        <div class="pp-card">
+          <div class="slider-group">
+            <div class="slider-label"><span class="name">Votre âge</span><span class="val" id="v-age">45 ans</span></div>
+            <input type="range" id="s-age" min="25" max="75" step="1" value="45">
+            <div class="slider-ends"><span>25</span><span>75</span></div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span class="name">Votre familiarité avec l'IA</span><span class="val" id="v-ia">5 / 10</span></div>
+            <input type="range" id="s-ia" min="0" max="10" step="1" value="5">
+            <div class="slider-ends"><span>Jamais utilisé</span><span>J'utilise au quotidien</span></div>
+          </div>
+          <div class="slider-group">
+            <div class="slider-label"><span class="name">Votre niveau d'inquiétude santé actuelle</span><span class="val" id="v-worry">5 / 10</span></div>
+            <input type="range" id="s-worry" min="0" max="10" step="1" value="5">
+            <div class="slider-ends"><span>Tout va bien</span><span>Je m'inquiète</span></div>
+          </div>
+
+          <div class="pp-result" id="ppResult">
+            <div class="profile-name" id="profileName">Curieux averti</div>
+            <div class="profile-desc" id="profileDesc">Vous êtes à l'aise avec la technologie et vous voulez comprendre votre santé en profondeur. Le Bilan Bien-Être Global est un bon point de départ.</div>
+          </div>
+
+          <form class="pp-form" id="ppForm">
+            <input type="email" id="ppEmail" placeholder="Votre adresse email" required>
+            <button type="submit" class="btn-primary">Recevoir le guide AEMERA (gratuit)</button>
+          </form>
+          <div class="pp-success" id="ppSuccess">Merci ! Votre guide arrive dans votre boîte mail. ✓</div>
+          <p class="pp-legal">En vous inscrivant, vous acceptez de recevoir le guide AEMERA par email. Données protégées (RGPD), jamais revendues. Informatif, ne remplace pas un avis médical.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGES PRODUITS
+     ═══════════════════════════════════════ -->
+<div class="page" id="page-produit-sang">
+  <div class="subpage-wrap section"><div class="container">
+    <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
+    <div class="prod-hero">
+      <div>
+        <span class="prod-tag">Produit phare · Bientôt disponible</span>
+        <h1>Analyse de prise de sang</h1>
+        <p style="color:var(--ink-60);margin-top:1rem">Vous venez de faire une prise de sang et le rendez-vous médecin est dans deux semaines ? Uploadez vos résultats : AEMERA vous explique chaque marqueur en langage clair, pour comprendre ce qui se passe sans attendre.</p>
+        <div class="prod-price">Bientôt disponible</div>
+        <a class="btn-primary" data-nav="premiers-pas">Être prévenu du lancement</a>
+        <p class="prod-legal">Données de santé sensibles : un consentement explicite vous sera demandé avant tout traitement (RGPD). Informatif, ne remplace pas un avis médical.</p>
+      </div>
+      <div class="prod-visual">
+        <div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">🩸</div><span class="mono">Aperçu à venir</span></div>
+      </div>
+    </div>
+    <div class="prod-features">
+      <div class="prod-feature"><h3>Chaque marqueur expliqué</h3><p>Fer, TSH, vitamine D, cholestérol… chaque valeur traduite en langage clair, avec ce qu'elle signifie pour vous.</p></div>
+      <div class="prod-feature"><h3>Des questions pour votre médecin</h3><p>Le rapport vous prépare une liste de questions pertinentes à poser lors de votre rendez-vous.</p></div>
+      <div class="prod-feature"><h3>Vos données protégées</h3><p>Traitement sécurisé, consentement explicite, suppression après génération. Jamais de revente.</p></div>
+    </div>
+  </div></div>
+</div>
+
+<div class="page" id="page-produit-symptome">
+  <div class="subpage-wrap section"><div class="container">
+    <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
+    <div class="prod-hero">
+      <div>
+        <span class="prod-tag">Analyse ciblée</span>
+        <h1>Analyse de symptôme</h1>
+        <p style="color:var(--ink-60);margin-top:1rem">Une fatigue qui dure, un sommeil perturbé, une douleur qui revient ? Décrivez votre symptôme : AEMERA vous livre une analyse claire, des pistes à explorer et les bonnes questions à poser à votre médecin.</p>
+        <div class="prod-price">19 €<small> / analyse</small></div>
+        <a class="btn-primary" data-nav="premiers-pas">Commencer mon analyse</a>
+        <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
+      </div>
+      <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">🔍</div><span class="mono">Rapport livré dans l'heure</span></div></div>
+    </div>
+    <div class="prod-features">
+      <div class="prod-feature"><h3>Ciblé sur votre symptôme</h3><p>Une analyse concentrée sur ce qui vous préoccupe précisément, pas un questionnaire générique.</p></div>
+      <div class="prod-feature"><h3>Des pistes concrètes</h3><p>Interprétation + facteurs possibles + pistes à explorer avec un professionnel de santé.</p></div>
+      <div class="prod-feature"><h3>Dans l'heure</h3><p>Votre rapport personnalisé arrive par mail en moins d'une heure.</p></div>
+    </div>
+  </div></div>
+</div>
+
+<div class="page" id="page-produit-bilan">
+  <div class="subpage-wrap section"><div class="container">
+    <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
+    <div class="prod-hero">
+      <div>
+        <span class="prod-tag">Vue d'ensemble</span>
+        <h1>Bilan bien-être global</h1>
+        <p style="color:var(--ink-60);margin-top:1rem">Pas de symptôme précis, juste l'envie de faire le point ? Un questionnaire complet, puis une analyse de vos habitudes : vos points forts, vos axes d'amélioration, et des protocoles recommandés.</p>
+        <div class="prod-price">14 €<small> / bilan</small></div>
+        <a class="btn-primary" data-nav="premiers-pas">Faire mon bilan</a>
+        <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
+      </div>
+      <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">📊</div><span class="mono">Analyse complète</span></div></div>
+    </div>
+    <div class="prod-features">
+      <div class="prod-feature"><h3>3 points forts</h3><p>Ce qui fonctionne déjà bien dans votre hygiène de vie, mis en valeur.</p></div>
+      <div class="prod-feature"><h3>3 axes d'amélioration</h3><p>Les leviers les plus utiles pour vous, priorisés et expliqués.</p></div>
+      <div class="prod-feature"><h3>Protocoles recommandés</h3><p>Des recommandations concrètes et des outils adaptés à votre profil.</p></div>
+    </div>
+  </div></div>
+</div>
+
+<div class="page" id="page-produit-ebook">
+  <div class="subpage-wrap section"><div class="container">
+    <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
+    <div class="prod-hero">
+      <div>
+        <span class="prod-tag">Produit d'entrée</span>
+        <h1>Le guide AEMERA — l'IA au service de votre santé</h1>
+        <p style="color:var(--ink-60);margin-top:1rem">Un guide pratique pour comprendre ce que l'intelligence artificielle peut (et ne peut pas) faire pour votre santé. Idéal pour démarrer, à votre rythme.</p>
+        <div class="prod-price">34 €<small> / ebook</small></div>
+        <a class="btn-primary" data-nav="premiers-pas">Obtenir le guide</a>
+        <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
+      </div>
+      <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">📖</div><span class="mono">Format PDF</span></div></div>
+    </div>
+    <div class="prod-features">
+      <div class="prod-feature"><h3>Clair et pratique</h3><p>Sans jargon. Des explications simples et des exemples concrets.</p></div>
+      <div class="prod-feature"><h3>À votre rythme</h3><p>Un format que vous lisez quand vous voulez, autant de fois que vous voulez.</p></div>
+      <div class="prod-feature"><h3>Le bon point de départ</h3><p>Pour comprendre l'approche AEMERA avant d'aller plus loin.</p></div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE — CHOISIR (après "Commencer")
+     ═══════════════════════════════════════ -->
+<div class="page" id="page-choisir">
+  <div class="subpage-wrap section"><div class="container">
+    <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
+    <div class="pp-head">
+      <p class="eyebrow" style="display:inline-block">Commencer</p>
+      <h1>Par où souhaitez-vous commencer&nbsp;?</h1>
+      <p>Choisissez l'analyse qui correspond à votre situation. Vous hésitez&nbsp;? Commencez par le test gratuit.</p>
+    </div>
+
+    <div class="choisir-free">
+      <div>
+        <span class="prod-tag">Gratuit · Sans carte bancaire</span>
+        <h2>Pas sûr de votre besoin&nbsp;? Faites le test gratuit.</h2>
+        <p style="color:var(--ink-60);margin-top:.6rem">Trois questions, deux minutes. On cerne votre besoin et on vous envoie notre guide « Comment ça marche » — offert.</p>
+      </div>
+      <a class="btn-light" data-nav="premiers-pas">Faire le test gratuit →</a>
+    </div>
+
+    <p class="choisir-or"><span>ou choisissez une analyse</span></p>
+
+    <div class="routeur-grid">
+      <a class="routeur-card phare" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="routeur-icon">🩸</div><h3>Analyse de prise de sang</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price">Bientôt disponible</span></a>
+      <a class="routeur-card" data-nav="produit-symptome"><div class="routeur-icon">🔍</div><h3>Analyse de symptôme</h3><p>Fatigue, douleur, trouble du sommeil — une analyse ciblée.</p><span class="routeur-price">19 €</span></a>
+      <a class="routeur-card" data-nav="produit-bilan"><div class="routeur-icon">📊</div><h3>Bilan bien-être global</h3><p>Vue d'ensemble de votre forme, habitudes, axes d'amélioration.</p><span class="routeur-price">14 €</span></a>
+      <a class="routeur-card" data-nav="produit-ebook"><div class="routeur-icon">📖</div><h3>Le guide AEMERA</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price">34 €</span></a>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE — NEWS (Actualité / SEO)
+     ═══════════════════════════════════════ -->
+<div class="page" id="page-news">
+  <div class="subpage-wrap section"><div class="container">
+    <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
+    <div class="pp-head">
+      <p class="eyebrow" style="display:inline-block">News</p>
+      <h1>Actualité AEMERA</h1>
+      <p>Nos articles pour comprendre votre santé, décoder vos résultats et utiliser l'IA à bon escient. Un nouvel article chaque semaine.</p>
+    </div>
+    <div class="news-grid">
+      <article class="news-card"><span class="news-tag">À venir</span><h3>Que veut dire une TSH élevée sur votre prise de sang&nbsp;?</h3><p>Comprendre ce marqueur thyroïdien sans paniquer, et les bonnes questions à poser à votre médecin.</p><span class="news-soon">Bientôt publié</span></article>
+      <article class="news-card"><span class="news-tag">À venir</span><h3>Fatigue persistante&nbsp;: les pistes à explorer</h3><p>Quand la fatigue s'installe, voici ce que vos résultats peuvent révéler — et ce qu'ils ne disent pas.</p><span class="news-soon">Bientôt publié</span></article>
+      <article class="news-card"><span class="news-tag">À venir</span><h3>L'attente des résultats&nbsp;: comment gérer le vide</h3><p>Ces deux semaines entre la prise de sang et le rendez-vous. Pourquoi elles angoissent, comment les traverser.</p><span class="news-soon">Bientôt publié</span></article>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem">
+      <p style="color:var(--ink-60);margin:0 auto 1.2rem">Soyez prévenu dès la publication des premiers articles.</p>
+      <a class="btn-primary" data-nav="premiers-pas">Recevoir le guide gratuit</a>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════ FOOTER (global) ═══════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-meta">
+      <span class="footer-brand">AEMERA</span>
+      <span class="footer-fr">Marque française</span>
+    </div>
+    <ul class="footer-links">
+      <li><a data-nav="premiers-pas">Premiers pas</a></li>
+      <li><a href="mailto:contact@aemera.life">contact@aemera.life</a></li>
+      <li><a>Mentions légales</a></li>
+      <li><a>CGV</a></li>
+      <li><a>Confidentialité</a></li>
+    </ul>
+    <p class="footer-disclaimer">AEMERA est un service informatif. Les rapports ne constituent pas un avis médical et ne remplacent en aucun cas une consultation avec un professionnel de santé. Marque française — données hébergées en Europe.</p>
+  </div>
+</footer>
+
+<script>
+var RM = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ═══ ROUTER (SPA) ═══ */
+var pages = document.querySelectorAll('.page');
+function showPage(name, anchor){
+  pages.forEach(function(p){ p.classList.remove('active'); });
+  var el = document.getElementById('page-'+name);
+  if(!el){ el = document.getElementById('page-accueil'); name='accueil'; }
+  el.classList.add('active');
+  if(location.hash !== '#'+name) history.replaceState(null,'',(name==='accueil'?'#accueil':'#'+name));
+  // re-run reveal for the now-visible page
+  setTimeout(function(){
+    initReveals(el);
+    if(name==='accueil'){ updateNav(); }
+    else { document.getElementById('nav').classList.add('show'); }
+  },20);
+  if(anchor){
+    setTimeout(function(){
+      var t=document.getElementById(anchor);
+      if(t) t.scrollIntoView({behavior:'smooth',block:'start'});
+    },60);
+  } else {
+    window.scrollTo({top:0,behavior:'auto'});
+  }
+  // close mobile menu
+  document.getElementById('navLinks').classList.remove('open');
+}
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-nav]');
+  if(!t) return;
+  e.preventDefault();
+  showPage(t.getAttribute('data-nav'), t.getAttribute('data-anchor'));
+});
+
+/* ═══ REVEAL ═══ */
+function initReveals(scope){
+  if(RM){ scope.querySelectorAll('.rv,.rv-s,.rv-l,.rv-r').forEach(function(el){el.classList.add('vis')}); return; }
+  var els = scope.querySelectorAll('.rv:not(.vis),.rv-s:not(.vis),.rv-l:not(.vis),.rv-r:not(.vis)');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); }});
+  },{threshold:.06,rootMargin:'0px 0px -30px 0px'});
+  els.forEach(function(el){ obs.observe(el); });
+}
+
+/* ═══ COUNTERS ═══ */
+function runCounter(el){
+  var target = parseInt(el.getAttribute('data-count'),10);
+  if(RM){ el.textContent = target; return; }
+  var start=null, dur=1200;
+  function step(ts){
+    if(!start) start=ts;
+    var p=Math.min((ts-start)/dur,1);
+    var eased=1-Math.pow(1-p,3);
+    el.textContent = Math.round(eased*target);
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+(function(){
+  var counters=document.querySelectorAll('[data-count]');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ runCounter(e.target); obs.unobserve(e.target); }});
+  },{threshold:.5});
+  counters.forEach(function(c){ obs.observe(c); });
+})();
+
+/* ═══ PROMESSE / STEPS / REPORT triggers ═══ */
+function bindToggle(id, cls, thr){
+  var el=document.getElementById(id); if(!el) return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ el.classList.add(cls); obs.unobserve(el); }});
+  },{threshold:thr});
+  obs.observe(el);
+}
+bindToggle('promesse','animated',.4);
+bindToggle('stepsW','anim',.25);
+bindToggle('apercuM','anim',.25);
+
+/* ═══ HERO mockup — appear + mouse tilt 3D ═══ */
+(function(){
+  var m=document.getElementById('heroMockup'); if(!m) return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ m.classList.add('animated'); obs.unobserve(m); }});
+  },{threshold:.3});
+  obs.observe(m);
+  if(RM) return;
+  var hero=document.getElementById('hero');
+  hero.addEventListener('mousemove',function(e){
+    var r=hero.getBoundingClientRect();
+    var rx=((e.clientX-r.left)/r.width-.5)*2;
+    var ry=((e.clientY-r.top)/r.height-.5)*2;
+    m.classList.remove('resetting');
+    m.style.transform='perspective(1000px) rotateX('+(ry*-4)+'deg) rotateY('+(rx*4)+'deg)';
+  });
+  hero.addEventListener('mouseleave',function(){
+    m.classList.add('resetting');
+    m.style.transform='perspective(1000px) rotateX(0) rotateY(0)';
+  });
+})();
+
+/* ═══ SPOTLIGHT cards ═══ */
+(function(){
+  if(RM) return;
+  document.querySelectorAll('.point-card,.routeur-card').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      card.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      card.style.setProperty('--my',(e.clientY-r.top)+'px');
+    });
+  });
+})();
+
+/* ═══ RUBAN parallax (very subtle) ═══ */
+(function(){
+  if(RM) return;
+  var ruban=document.getElementById('ruban'); var portail=document.getElementById('portail');
+  if(!ruban||!portail) return;
+  portail.addEventListener('mousemove',function(e){
+    var r=portail.getBoundingClientRect();
+    var dx=((e.clientX-r.left)/r.width-.5)*2;
+    var dy=((e.clientY-r.top)/r.height-.5)*2;
+    ruban.style.transform='translate('+(dx*12)+'px,'+(dy*12)+'px)';
+  });
+  portail.addEventListener('mouseleave',function(){ ruban.style.transform='translate(0,0)'; });
+})();
+
+/* ═══ NAV show/shrink (accueil) ═══ */
+function updateNav(){
+  var nav=document.getElementById('nav');
+  var portail=document.getElementById('portail');
+  if(!document.getElementById('page-accueil').classList.contains('active')){ nav.classList.add('show'); return; }
+  if(!portail){ nav.classList.add('show'); return; }
+  nav.classList.toggle('show',window.scrollY>portail.offsetHeight*.6);
+  nav.classList.toggle('scrolled',window.scrollY>portail.offsetHeight+80);
+}
+(function(){
+  var t=false;
+  window.addEventListener('scroll',function(){
+    if(!t){ requestAnimationFrame(function(){ updateNav(); t=false; }); t=true; }
+  },{passive:true});
+})();
+
+/* ═══ Mobile toggle ═══ */
+document.getElementById('navToggle').addEventListener('click',function(){
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+/* ═══ FAQ ═══ */
+document.querySelectorAll('.faq-question').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var item=btn.parentElement;
+    var ans=item.querySelector('.faq-answer');
+    var open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(i){ i.classList.remove('open'); i.querySelector('.faq-answer').style.maxHeight='0'; });
+    if(!open){ item.classList.add('open'); ans.style.maxHeight=ans.scrollHeight+'px'; }
+  });
+});
+
+/* ═══ Magnetic buttons ═══ */
+function magnetic(el){
+  if(!el||RM) return;
+  var max=6;
+  el.addEventListener('mousemove',function(e){
+    var r=el.getBoundingClientRect();
+    var dx=(e.clientX-r.left-r.width/2)/(r.width/2)*max;
+    var dy=(e.clientY-r.top-r.height/2)/(r.height/2)*max;
+    el.style.transform='translate('+dx+'px,'+dy+'px)';
+  });
+  el.addEventListener('mouseleave',function(){
+    el.style.transform='translate(0,0)';
+    el.style.transition='transform .4s ease-out';
+    setTimeout(function(){ el.style.transition=''; },400);
+  });
+}
+magnetic(document.getElementById('heroCta'));
+magnetic(document.getElementById('ctaFinal'));
+
+/* ═══ PREMIERS PAS — sliders + profile ═══ */
+(function(){
+  var sAge=document.getElementById('s-age'), sIa=document.getElementById('s-ia'), sWorry=document.getElementById('s-worry');
+  if(!sAge) return;
+  var vAge=document.getElementById('v-age'), vIa=document.getElementById('v-ia'), vWorry=document.getElementById('v-worry');
+  var pName=document.getElementById('profileName'), pDesc=document.getElementById('profileDesc');
+  function fillTrack(s){
+    var pct=(s.value-s.min)/(s.max-s.min)*100;
+    s.style.background='linear-gradient(90deg,var(--sage) '+pct+'%,var(--mist) '+pct+'%)';
+  }
+  function profile(age,ia,worry){
+    if(worry>=7) return {n:'En quête de réponses',d:"Vous traversez une période d'inquiétude. L'Analyse de Symptôme ou de Prise de Sang vous donnera des réponses claires, vite — pour aborder votre médecin l'esprit plus tranquille."};
+    if(ia>=7 && worry<=4) return {n:'Curieux averti',d:"À l'aise avec la technologie et plutôt serein, vous voulez comprendre votre santé en profondeur. Le Bilan Bien-Être Global est un excellent point de départ."};
+    if(ia<=3) return {n:'Observateur prudent',d:"Vous découvrez l'IA santé en avançant prudemment. Le guide AEMERA est fait pour vous : il explique tout, simplement, avant d'aller plus loin."};
+    return {n:'Explorateur serein',d:"Vous voulez faire le point sans urgence particulière. Le Bilan Bien-Être Global vous offrira une vue d'ensemble claire de votre forme."};
+  }
+  function update(){
+    vAge.textContent=sAge.value+' ans';
+    vIa.textContent=sIa.value+' / 10';
+    vWorry.textContent=sWorry.value+' / 10';
+    [sAge,sIa,sWorry].forEach(fillTrack);
+    var p=profile(+sAge.value,+sIa.value,+sWorry.value);
+    if(pName.textContent!==p.n){
+      pName.textContent=p.n; pDesc.textContent=p.d;
+    }
+  }
+  [sAge,sIa,sWorry].forEach(function(s){ s.addEventListener('input',update); });
+  update();
+  var form=document.getElementById('ppForm');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=document.getElementById('ppEmail').value.trim();
+    if(!email) return;
+    document.getElementById('ppSuccess').classList.add('show');
+    form.style.display='none';
+  });
+})();
+
+/* ═══ INIT ═══ */
+(function(){
+  var initial=(location.hash||'#accueil').replace('#','');
+  showPage(initial);
+  initReveals(document.getElementById('page-accueil'));
+  updateNav();
+})();
+</script>
+</body>
+</html>
