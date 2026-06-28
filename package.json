@@ -1,0 +1,10 @@
+{
+  "name": "aemera-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AEMERA — site SPA + API Stripe Checkout",
+  "type": "module",
+  "dependencies": {
+    "stripe": "^16.12.0"
+  }
+}
