@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://js.stripe.com/v3/"></script>
 <style>
 :root {
   --stone: #EAE5DB;
@@ -123,6 +124,12 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .nav-menu a strong{display:block;font-family:'Poppins',sans-serif;font-weight:500;font-size:.86rem;color:var(--ink)}
 .nav-menu a em{display:block;font-style:normal;font-size:.74rem;color:var(--ink-60)}
 .nav-mobile-toggle{display:none;background:none;border:none;cursor:pointer}
+.pay-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:200;padding:.9rem 1.5rem;text-align:center;font-family:'Poppins',sans-serif;font-weight:500;font-size:.9rem;color:var(--pearl)}
+.pay-banner.show{display:block}
+.pay-banner.ok{background:var(--forest)}
+.pay-banner.ko{background:#9a4a2f}
+.pay-banner button{background:none;border:none;color:inherit;font-size:1.1rem;cursor:pointer;margin-left:1rem;opacity:.7}
+.btn-primary.is-loading{opacity:.6;pointer-events:none}
 .nav-mobile-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0}
 @media(max-width:768px){.nav-links{display:none}.nav-mobile-toggle{display:block}.nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--pearl);padding:2rem;border-bottom:1px solid var(--mist);gap:1.2rem}}
 
@@ -372,9 +379,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <li><a data-nav="accueil" data-anchor="faq">FAQ</a></li>
       <li><a class="nav-cta" data-nav="choisir">Commencer</a></li>
     </ul>
-    <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
 </nav>
+
+<div id="payBanner" class="pay-banner" role="status"></div>
 
 <!-- ═══════════════════════════════════════
      PAGE — ACCUEIL
@@ -625,7 +632,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         <h1>Analyse de symptôme</h1>
         <p style="color:var(--ink-60);margin-top:1rem">Une fatigue qui dure, un sommeil perturbé, une douleur qui revient ? Décrivez votre symptôme : AEMERA vous livre une analyse claire, des pistes à explorer et les bonnes questions à poser à votre médecin.</p>
         <div class="prod-price">19 €<small> / analyse</small></div>
-        <a class="btn-primary" data-nav="premiers-pas">Commencer mon analyse</a>
+        <a class="btn-primary" data-buy="symptome">Commencer mon analyse — 19 €</a>
         <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
       </div>
       <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">🔍</div><span class="mono">Rapport livré dans l'heure</span></div></div>
@@ -647,7 +654,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         <h1>Bilan bien-être global</h1>
         <p style="color:var(--ink-60);margin-top:1rem">Pas de symptôme précis, juste l'envie de faire le point ? Un questionnaire complet, puis une analyse de vos habitudes : vos points forts, vos axes d'amélioration, et des protocoles recommandés.</p>
         <div class="prod-price">14 €<small> / bilan</small></div>
-        <a class="btn-primary" data-nav="premiers-pas">Faire mon bilan</a>
+        <a class="btn-primary" data-buy="bilan">Faire mon bilan — 14 €</a>
         <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
       </div>
       <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">📊</div><span class="mono">Analyse complète</span></div></div>
@@ -669,7 +676,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         <h1>Le guide AEMERA — l'IA au service de votre santé</h1>
         <p style="color:var(--ink-60);margin-top:1rem">Un guide pratique pour comprendre ce que l'intelligence artificielle peut (et ne peut pas) faire pour votre santé. Idéal pour démarrer, à votre rythme.</p>
         <div class="prod-price">34 €<small> / ebook</small></div>
-        <a class="btn-primary" data-nav="premiers-pas">Obtenir le guide</a>
+        <a class="btn-primary" data-buy="ebook">Obtenir le guide — 34 €</a>
         <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
       </div>
       <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">📖</div><span class="mono">Format PDF</span></div></div>
@@ -969,6 +976,57 @@ magnetic(document.getElementById('ctaFinal'));
     document.getElementById('ppSuccess').classList.add('show');
     form.style.display='none';
   });
+})();
+
+/* ═══ STRIPE CHECKOUT ═══ */
+// Clé PUBLIQUE Stripe — sans risque côté client. REMPLACER par ta vraie clé pk_live_ ou pk_test_.
+var STRIPE_PK = 'pk_test_REMPLACER_PAR_TA_CLE_PUBLIQUE';
+var stripe = (window.Stripe && STRIPE_PK.indexOf('REMPLACER')===-1) ? Stripe(STRIPE_PK) : null;
+
+document.addEventListener('click', function(e){
+  var b = e.target.closest('[data-buy]');
+  if(!b) return;
+  e.preventDefault();
+  startCheckout(b.getAttribute('data-buy'), b);
+});
+
+function startCheckout(produit, btn){
+  var label = btn ? btn.textContent : '';
+  if(btn){ btn.classList.add('is-loading'); btn.textContent = 'Redirection…'; }
+  fetch('/api/checkout', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ produit: produit })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    if(data && data.url){ window.location = data.url; }
+    else { throw new Error(data && data.error ? data.error : 'Erreur inconnue'); }
+  })
+  .catch(function(err){
+    if(btn){ btn.classList.remove('is-loading'); btn.textContent = label; }
+    showBanner('ko', 'Le paiement n\u2019a pas pu démarrer. Réessayez dans un instant.');
+    console.error(err);
+  });
+}
+
+/* ═══ Bannière de retour paiement (?success / ?canceled) ═══ */
+function showBanner(kind, msg){
+  var el = document.getElementById('payBanner');
+  el.className = 'pay-banner show ' + (kind==='ok'?'ok':'ko');
+  el.innerHTML = msg + '<button aria-label="Fermer">×</button>';
+  el.querySelector('button').onclick = function(){ el.classList.remove('show'); };
+}
+(function(){
+  var q = new URLSearchParams(location.search);
+  if(q.get('success')==='1'){
+    showBanner('ok', 'Paiement confirmé. Votre rapport vous sera envoyé par mail. Merci !');
+  } else if(q.get('canceled')==='1'){
+    showBanner('ko', 'Paiement annulé. Aucun montant n\u2019a été débité.');
+  }
+  if(q.has('success')||q.has('canceled')){
+    history.replaceState(null,'',location.pathname + location.hash);
+  }
 })();
 
 /* ═══ INIT ═══ */
