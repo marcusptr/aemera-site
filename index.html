@@ -309,6 +309,49 @@ footer .container{display:flex;justify-content:space-between;align-items:center;
 .prod-legal{font-size:.78rem;color:var(--ink-30);margin-top:1.5rem}
 @media(max-width:768px){.prod-hero{grid-template-columns:1fr;gap:2rem}.prod-features{grid-template-columns:1fr}}
 
+/* MOCKUP RAPPORT */
+.prod-mockup{background:var(--pearl);border:1px solid var(--mist);border-radius:16px;padding:1.5rem;box-shadow:0 8px 32px rgba(10,61,49,.08)}
+.mockup-header{display:flex;align-items:center;gap:.4rem;margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--ink-08)}
+.mockup-dot{width:8px;height:8px;border-radius:50%;background:var(--mist)}
+.mockup-title{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--ink-30);letter-spacing:.04em}
+.mockup-row{display:grid;grid-template-columns:90px 70px 1fr;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.mockup-marker{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--ink-60)}
+.mockup-val{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:500}
+.mockup-val.ok{color:var(--forest)}
+.mockup-val.warn{color:#b8860b}
+.mockup-bar{height:6px;border-radius:3px;background:var(--sage)}
+.mockup-bar.ok{background:var(--forest-mid)}
+.mockup-bar.warn{background:#daa520}
+.mockup-section{font-family:'Poppins',sans-serif;font-weight:500;font-size:.76rem;color:var(--forest);margin:1rem 0 .5rem;padding-top:.6rem;border-top:1px solid var(--ink-08)}
+.mockup-text{height:8px;background:var(--stone);border-radius:4px;margin-bottom:.4rem}
+.mockup-text.short{width:60%}
+
+/* STEPS (Comment ça se passe) */
+.prod-steps{margin-top:3rem}
+.prod-steps h2{text-align:center;margin-bottom:2rem}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.step-card{background:var(--pearl);border:1px solid var(--mist);border-radius:16px;padding:1.5rem;position:relative}
+.step-card:hover{border-color:var(--sage)}
+.step-num{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--forest);color:var(--pearl);font-family:'Poppins',sans-serif;font-weight:600;font-size:.85rem;margin-bottom:.8rem}
+.step-card h3{font-size:.92rem;margin-bottom:.4rem}
+.step-card p{font-size:.82rem;color:var(--ink-60)}
+@media(max-width:768px){.steps-grid{grid-template-columns:1fr 1fr;gap:1rem}}
+@media(max-width:480px){.steps-grid{grid-template-columns:1fr}}
+
+/* NEWSLETTER TOAST */
+.nl-toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:150;width:380px;max-width:calc(100vw - 2rem);background:var(--pearl);border:1px solid var(--mist);border-radius:20px;box-shadow:0 16px 48px rgba(10,61,49,.12);padding:1.8rem;opacity:0;transform:translateY(20px);transition:opacity .5s var(--ease-out-expo),transform .5s var(--ease-out-expo);pointer-events:none}
+.nl-toast.show{opacity:1;transform:translateY(0);pointer-events:all}
+.nl-toast-close{position:absolute;top:.8rem;right:1rem;background:none;border:none;font-size:1.2rem;color:var(--ink-30);cursor:pointer;padding:.3rem}
+.nl-toast h3{font-size:1rem;margin-bottom:.6rem;padding-right:1.5rem}
+.nl-toast p{font-size:.82rem;color:var(--ink-60);margin-bottom:1rem}
+.nl-toast-form{display:flex;gap:.5rem}
+.nl-toast-form input{flex:1;padding:.55rem .8rem;border:1px solid var(--mist);border-radius:10px;font-family:'Nunito Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s}
+.nl-toast-form input:focus{border-color:var(--forest-mid)}
+.nl-toast-form button{flex:none;padding:.55rem 1rem;border:none;border-radius:10px;background:var(--forest);color:var(--pearl);font-family:'Poppins',sans-serif;font-weight:500;font-size:.8rem;cursor:pointer;transition:background .2s}
+.nl-toast-form button:hover{background:var(--forest-mid)}
+.nl-toast-ok{display:none;font-size:.85rem;color:var(--forest);font-weight:500}
+@media(max-width:480px){.nl-toast{bottom:0;right:0;max-width:100%;border-radius:20px 20px 0 0}}
+
 /* CHOISIR */
 .choisir-free{display:flex;align-items:center;justify-content:space-between;gap:2rem;background:var(--forest);color:var(--pearl);border-radius:20px;padding:2.2rem 2.5rem;margin-bottom:1rem;flex-wrap:wrap}
 .choisir-free h2{color:var(--pearl)}
@@ -371,7 +414,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <a data-nav="produit-sang"><span class="nav-menu-ic">🩸</span><span><strong>Analyse de prise de sang</strong><em>Le plus demandé</em></span></a>
           <a data-nav="produit-symptome"><span class="nav-menu-ic">🔍</span><span><strong>Analyse de symptôme</strong><em>19 €</em></span></a>
           <a data-nav="produit-bilan"><span class="nav-menu-ic">📊</span><span><strong>Bilan bien-être global</strong><em>14 €</em></span></a>
-          <a data-nav="produit-ebook"><span class="nav-menu-ic">📖</span><span><strong>Le guide AEMERA</strong><em>34 €</em></span></a>
+          <a data-nav="produit-ebook"><span class="nav-menu-ic">📖</span><span><strong>Le guide AEMERA</strong><em>19 €</em></span></a>
         </div>
       </li>
       <li><a data-nav="premiers-pas">Premiers pas</a></li>
@@ -482,10 +525,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <p class="eyebrow rv">Nos analyses</p><h2 class="rv">Par où commencer ?</h2>
       <p class="section-intro rv">Choisissez ce qui correspond à votre situation. Chaque analyse est personnalisée et livrée dans l'heure.</p>
       <div class="routeur-grid">
-        <a class="routeur-card phare rv-s d1" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="shine"></div><div class="spot"></div><div class="routeur-icon">🩸</div><h3>J'ai une prise de sang à comprendre</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price">Bientôt disponible</span></a>
+        <a class="routeur-card phare rv-s d1" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="shine"></div><div class="spot"></div><div class="routeur-icon">🩸</div><h3>J'ai une prise de sang à comprendre</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price"><span data-count="19">0</span> €</span></a>
         <a class="routeur-card rv-s d2" data-nav="produit-symptome"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">🔍</div><h3>J'ai un symptôme précis</h3><p>Fatigue, douleur, trouble du sommeil — une analyse ciblée.</p><span class="routeur-price"><span data-count="19">0</span> €</span></a>
         <a class="routeur-card rv-s d3" data-nav="produit-bilan"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">📊</div><h3>Je veux faire le point</h3><p>Vue d'ensemble de votre forme, habitudes, axes d'amélioration.</p><span class="routeur-price"><span data-count="14">0</span> €</span></a>
-        <a class="routeur-card rv-s d4" data-nav="produit-ebook"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">📖</div><h3>Je veux comprendre l'IA santé</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price"><span data-count="34">0</span> €</span></a>
+        <a class="routeur-card rv-s d4" data-nav="produit-ebook"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">📖</div><h3>Je veux comprendre l'IA santé</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price"><span data-count="19">0</span> €</span></a>
       </div>
     </div>
   </section>
@@ -533,7 +576,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         <div class="faq-item rv d1"><button class="faq-question">Est-ce qu'AEMERA remplace un médecin ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Non, et c'est un choix assumé. AEMERA est un outil d'éclairage : il vous aide à comprendre vos résultats et à préparer vos questions pour votre médecin. Nos rapports sont informatifs et ne constituent jamais un avis médical.</div></div></div>
         <div class="faq-item rv d2"><button class="faq-question">En combien de temps je reçois mon rapport ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">En moins d'une heure après validation de votre commande. Votre rapport personnalisé est livré directement dans votre boîte mail.</div></div></div>
         <div class="faq-item rv d3"><button class="faq-question">Que deviennent mes données de santé ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Vos données sont utilisées uniquement pour générer votre rapport, puis supprimées. Nous ne les revendons jamais, ne les partageons avec aucun tiers, et respectons le RGPD. Pour les analyses de prise de sang, un consentement explicite vous est demandé.</div></div></div>
-        <div class="faq-item rv d4"><button class="faq-question">Quelle est la différence entre vos analyses ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">L'Analyse de Symptôme (19 €) se concentre sur un problème précis. Le Bilan Global (14 €) offre une vue d'ensemble. L'Analyse de Prise de Sang interprète vos résultats marqueur par marqueur. L'Ebook (34 €) est un guide pour comprendre l'IA santé.</div></div></div>
+        <div class="faq-item rv d4"><button class="faq-question">Quelle est la différence entre vos analyses ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">L'Analyse de Symptôme (19 €) se concentre sur un problème précis. Le Bilan Global (14 €) offre une vue d'ensemble. L'Analyse de Prise de Sang interprète vos résultats marqueur par marqueur. L'Ebook (19 €) est un guide pratique à réutiliser au quotidien pour comprendre l'IA santé.</div></div></div>
         <div class="faq-item rv d5"><button class="faq-question">C'est fiable ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Notre IA s'appuie sur des bases de données médicales validées et croise des milliers de références. Le résultat est un éclairage informé — pas un diagnostic. On vous recommande d'en discuter avec votre médecin, rapport en main.</div></div></div>
       </div>
     </div>
@@ -559,7 +602,8 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         <div class="pp-head">
           <p class="eyebrow" style="display:inline-block">Premiers pas</p>
           <h1>Recevez votre guide AEMERA, <span style="color:var(--forest-mid)">gratuitement</span></h1>
-          <p>Trois questions, deux minutes. On cerne votre besoin, on vous oriente, et on vous envoie notre guide <strong>« Comment ça marche »</strong> — <strong>offert, sans engagement, sans carte bancaire.</strong></p>
+          <p>Répondez à 3 questions rapides — en fonction de votre profil, on vous montre exactement ce qu'AEMERA peut faire pour votre situation. Et on vous envoie de quoi mieux comprendre l'approche, pour que vous puissiez décider en toute tranquillité.</p>
+          <p style="color:var(--ink-60);font-size:.9rem;margin-top:.5rem">Pas de piège, pas de formulaire interminable. Deux minutes, et vous repartez avec quelque chose d'utile — <strong>offert, sans engagement, sans carte bancaire.</strong></p>
           <div class="pp-free-badge"><span>✓ 100&nbsp;% gratuit</span><span>✓ Aucun paiement</span><span>✓ Désinscription en 1 clic</span></div>
         </div>
         <div class="pp-card">
@@ -604,17 +648,36 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
     <div class="prod-hero">
       <div>
-        <span class="prod-tag">Produit phare · Bientôt disponible</span>
+        <span class="prod-tag">Produit phare</span>
         <h1>Analyse de prise de sang</h1>
-        <p style="color:var(--ink-60);margin-top:1rem">Vous venez de faire une prise de sang et le rendez-vous médecin est dans deux semaines ? Uploadez vos résultats : AEMERA vous explique chaque marqueur en langage clair, pour comprendre ce qui se passe sans attendre.</p>
-        <div class="prod-price">Bientôt disponible</div>
-        <a class="btn-primary" data-nav="premiers-pas">Être prévenu du lancement</a>
+        <p style="color:var(--ink-60);margin-top:1rem">Vous venez de faire une prise de sang et le rendez-vous médecin est dans deux semaines&nbsp;? Uploadez vos résultats — AEMERA analyse chaque marqueur et vous envoie un rapport complet en langage clair, directement par mail.</p>
+        <p style="color:var(--ink-60)">Fer, TSH, vitamine D, cholestérol, glycémie… chaque valeur est traduite : ce qu'elle signifie, si elle est dans les normes, ce qui mérite votre attention, et les questions pertinentes à poser à votre médecin. Plus besoin de googler vos résultats dans le stress — vous arrivez à votre rendez-vous préparé et serein.</p>
+        <div class="prod-price">19 €<small> / analyse</small></div>
+        <a class="btn-primary" data-buy="sang">Analyser ma prise de sang — 19 €</a>
         <p class="prod-legal">Données de santé sensibles : un consentement explicite vous sera demandé avant tout traitement (RGPD). Informatif, ne remplace pas un avis médical.</p>
       </div>
       <div class="prod-visual">
-        <div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">🩸</div><span class="mono">Aperçu à venir</span></div>
+        <div class="prod-mockup">
+          <div class="mockup-header"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-title">Votre rapport AEMERA</span></div>
+          <div class="mockup-row"><span class="mockup-marker">TSH</span><span class="mockup-val ok">2.1 mUI/L</span><span class="mockup-bar ok" style="width:45%"></span></div>
+          <div class="mockup-row"><span class="mockup-marker">Fer sérique</span><span class="mockup-val warn">48 µg/L</span><span class="mockup-bar warn" style="width:30%"></span></div>
+          <div class="mockup-row"><span class="mockup-marker">Vitamine D</span><span class="mockup-val ok">62 nmol/L</span><span class="mockup-bar ok" style="width:55%"></span></div>
+          <div class="mockup-row"><span class="mockup-marker">Cholestérol</span><span class="mockup-val ok">1.8 g/L</span><span class="mockup-bar ok" style="width:65%"></span></div>
+          <div class="mockup-text"></div><div class="mockup-text short"></div>
+        </div>
       </div>
     </div>
+
+    <div class="prod-steps">
+      <h2>Comment ça se passe</h2>
+      <div class="steps-grid">
+        <div class="step-card"><span class="step-num">1</span><h3>Uploadez vos résultats</h3><p>Photo ou PDF de votre prise de sang — on accepte tous les laboratoires français.</p></div>
+        <div class="step-card"><span class="step-num">2</span><h3>L'IA analyse chaque marqueur</h3><p>Chaque valeur est interprétée, comparée aux normes, et expliquée simplement.</p></div>
+        <div class="step-card"><span class="step-num">3</span><h3>Votre rapport arrive par mail</h3><p>Un document clair et structuré, livré dans votre boîte mail en moins d'une heure.</p></div>
+        <div class="step-card"><span class="step-num">4</span><h3>Arrivez préparé chez votre médecin</h3><p>Avec les bonnes questions et une compréhension claire de vos résultats.</p></div>
+      </div>
+    </div>
+
     <div class="prod-features">
       <div class="prod-feature"><h3>Chaque marqueur expliqué</h3><p>Fer, TSH, vitamine D, cholestérol… chaque valeur traduite en langage clair, avec ce qu'elle signifie pour vous.</p></div>
       <div class="prod-feature"><h3>Des questions pour votre médecin</h3><p>Le rapport vous prépare une liste de questions pertinentes à poser lors de votre rendez-vous.</p></div>
@@ -630,13 +693,35 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <div>
         <span class="prod-tag">Analyse ciblée</span>
         <h1>Analyse de symptôme</h1>
-        <p style="color:var(--ink-60);margin-top:1rem">Une fatigue qui dure, un sommeil perturbé, une douleur qui revient ? Décrivez votre symptôme : AEMERA vous livre une analyse claire, des pistes à explorer et les bonnes questions à poser à votre médecin.</p>
+        <p style="color:var(--ink-60);margin-top:1rem">Une fatigue qui dure depuis des semaines, un sommeil perturbé, une douleur qui revient sans explication&nbsp;? Décrivez votre symptôme avec vos propres mots — AEMERA produit une analyse personnalisée de votre situation.</p>
+        <p style="color:var(--ink-60)">Vous recevez par mail un rapport détaillé : causes possibles classées par pertinence, facteurs à surveiller, recommandations pratiques, et les questions précises à poser à votre médecin lors de votre prochain rendez-vous. Tout est formulé simplement, sans jargon médical, pour que vous compreniez réellement ce qui se passe.</p>
         <div class="prod-price">19 €<small> / analyse</small></div>
         <a class="btn-primary" data-buy="symptome">Commencer mon analyse — 19 €</a>
         <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
       </div>
-      <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">🔍</div><span class="mono">Rapport livré dans l'heure</span></div></div>
+      <div class="prod-visual">
+        <div class="prod-mockup">
+          <div class="mockup-header"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-title">Votre rapport AEMERA</span></div>
+          <div class="mockup-section">Analyse ciblée — Fatigue persistante</div>
+          <div class="mockup-text"></div><div class="mockup-text"></div><div class="mockup-text short"></div>
+          <div class="mockup-section">Pistes à explorer</div>
+          <div class="mockup-text"></div><div class="mockup-text short"></div>
+          <div class="mockup-section">Questions pour votre médecin</div>
+          <div class="mockup-text"></div>
+        </div>
+      </div>
     </div>
+
+    <div class="prod-steps">
+      <h2>Comment ça se passe</h2>
+      <div class="steps-grid">
+        <div class="step-card"><span class="step-num">1</span><h3>Décrivez votre symptôme</h3><p>Avec vos mots, sans jargon. Depuis quand, comment, à quelle fréquence.</p></div>
+        <div class="step-card"><span class="step-num">2</span><h3>L'IA analyse le contexte</h3><p>Votre âge, vos habitudes et votre description sont croisés pour une analyse ciblée.</p></div>
+        <div class="step-card"><span class="step-num">3</span><h3>Votre rapport arrive par mail</h3><p>Causes possibles, pistes à explorer, recommandations — en moins d'une heure.</p></div>
+        <div class="step-card"><span class="step-num">4</span><h3>Préparez votre rendez-vous</h3><p>Les questions pertinentes sont prêtes — vous n'oubliez rien face au médecin.</p></div>
+      </div>
+    </div>
+
     <div class="prod-features">
       <div class="prod-feature"><h3>Ciblé sur votre symptôme</h3><p>Une analyse concentrée sur ce qui vous préoccupe précisément, pas un questionnaire générique.</p></div>
       <div class="prod-feature"><h3>Des pistes concrètes</h3><p>Interprétation + facteurs possibles + pistes à explorer avec un professionnel de santé.</p></div>
@@ -652,13 +737,35 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <div>
         <span class="prod-tag">Vue d'ensemble</span>
         <h1>Bilan bien-être global</h1>
-        <p style="color:var(--ink-60);margin-top:1rem">Pas de symptôme précis, juste l'envie de faire le point ? Un questionnaire complet, puis une analyse de vos habitudes : vos points forts, vos axes d'amélioration, et des protocoles recommandés.</p>
+        <p style="color:var(--ink-60);margin-top:1rem">Pas de symptôme précis, juste l'envie de savoir où vous en êtes&nbsp;? Répondez à un questionnaire complet sur votre quotidien — sommeil, alimentation, stress, activité physique, énergie — et recevez une cartographie complète de votre bien-être.</p>
+        <p style="color:var(--ink-60)">Le rapport identifie vos 3 points forts (ce qui fonctionne déjà bien), vos 3 axes d'amélioration prioritaires, et des protocoles concrets à appliquer dès maintenant. Ce n'est pas un diagnostic — c'est un miroir intelligent de vos habitudes, avec des leviers d'action clairs.</p>
         <div class="prod-price">14 €<small> / bilan</small></div>
         <a class="btn-primary" data-buy="bilan">Faire mon bilan — 14 €</a>
         <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
       </div>
-      <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">📊</div><span class="mono">Analyse complète</span></div></div>
+      <div class="prod-visual">
+        <div class="prod-mockup">
+          <div class="mockup-header"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-title">Votre bilan AEMERA</span></div>
+          <div class="mockup-section">Vos points forts</div>
+          <div class="mockup-text"></div><div class="mockup-text short"></div>
+          <div class="mockup-section">Axes d'amélioration</div>
+          <div class="mockup-text"></div><div class="mockup-text"></div>
+          <div class="mockup-section">Protocoles recommandés</div>
+          <div class="mockup-text"></div><div class="mockup-text short"></div>
+        </div>
+      </div>
     </div>
+
+    <div class="prod-steps">
+      <h2>Comment ça se passe</h2>
+      <div class="steps-grid">
+        <div class="step-card"><span class="step-num">1</span><h3>Répondez au questionnaire</h3><p>Sommeil, alimentation, stress, activité physique — 5 minutes pour dresser le tableau.</p></div>
+        <div class="step-card"><span class="step-num">2</span><h3>L'IA construit votre profil</h3><p>Vos réponses sont analysées pour identifier vos forces et vos marges de progression.</p></div>
+        <div class="step-card"><span class="step-num">3</span><h3>Votre bilan arrive par mail</h3><p>Un document structuré avec vos points forts, vos axes et des protocoles — en moins d'une heure.</p></div>
+        <div class="step-card"><span class="step-num">4</span><h3>Appliquez à votre rythme</h3><p>Des recommandations concrètes, pas des injonctions. Vous choisissez ce qui vous parle.</p></div>
+      </div>
+    </div>
+
     <div class="prod-features">
       <div class="prod-feature"><h3>3 points forts</h3><p>Ce qui fonctionne déjà bien dans votre hygiène de vie, mis en valeur.</p></div>
       <div class="prod-feature"><h3>3 axes d'amélioration</h3><p>Les leviers les plus utiles pour vous, priorisés et expliqués.</p></div>
@@ -672,19 +779,41 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
     <div class="prod-hero">
       <div>
-        <span class="prod-tag">Produit d'entrée</span>
+        <span class="prod-tag">Votre outil au quotidien</span>
         <h1>Le guide AEMERA — l'IA au service de votre santé</h1>
-        <p style="color:var(--ink-60);margin-top:1rem">Un guide pratique pour comprendre ce que l'intelligence artificielle peut (et ne peut pas) faire pour votre santé. Idéal pour démarrer, à votre rythme.</p>
-        <div class="prod-price">34 €<small> / ebook</small></div>
-        <a class="btn-primary" data-buy="ebook">Obtenir le guide — 34 €</a>
+        <p style="color:var(--ink-60);margin-top:1rem">Ce n'est pas un livre qu'on lit une fois et qu'on oublie. C'est un outil pratique que vous gardez et que vous réutilisez — à chaque prise de sang, à chaque question santé, à chaque rendez-vous médecin.</p>
+        <p style="color:var(--ink-60)">Apprenez à interpréter vos propres données de santé, à comprendre ce que l'IA peut (et ne peut pas) faire pour vous, et à poser les bonnes questions. Contenu à jour, langage clair, exemples concrets. Un investissement que vous rentabilisez dès la première utilisation — et à chaque fois que vous en avez besoin ensuite.</p>
+        <div class="prod-price">19 €<small> / guide</small></div>
+        <a class="btn-primary" data-buy="ebook">Obtenir le guide — 19 €</a>
         <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
       </div>
-      <div class="prod-visual"><div style="text-align:center;color:var(--ink-30)"><div style="font-size:3rem;margin-bottom:.5rem">📖</div><span class="mono">Format PDF</span></div></div>
+      <div class="prod-visual">
+        <div class="prod-mockup">
+          <div class="mockup-header"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-title">Guide AEMERA — PDF</span></div>
+          <div class="mockup-section">Comprendre vos marqueurs</div>
+          <div class="mockup-text"></div><div class="mockup-text"></div><div class="mockup-text short"></div>
+          <div class="mockup-section">L'IA et votre santé</div>
+          <div class="mockup-text"></div><div class="mockup-text short"></div>
+          <div class="mockup-section">Les bonnes questions</div>
+          <div class="mockup-text"></div>
+        </div>
+      </div>
     </div>
+
+    <div class="prod-steps">
+      <h2>Comment ça se passe</h2>
+      <div class="steps-grid">
+        <div class="step-card"><span class="step-num">1</span><h3>Commandez le guide</h3><p>Paiement sécurisé en une minute, via Stripe.</p></div>
+        <div class="step-card"><span class="step-num">2</span><h3>Recevez le PDF par mail</h3><p>Le guide arrive dans votre boîte mail, prêt à lire sur téléphone, tablette ou ordinateur.</p></div>
+        <div class="step-card"><span class="step-num">3</span><h3>Utilisez-le quand vous en avez besoin</h3><p>À chaque prise de sang, chaque question santé, chaque rendez-vous — il est toujours là.</p></div>
+        <div class="step-card"><span class="step-num">4</span><h3>Allez plus loin avec nos analyses</h3><p>Le guide vous donne les clés — nos analyses font le travail pour vous, marqueur par marqueur.</p></div>
+      </div>
+    </div>
+
     <div class="prod-features">
-      <div class="prod-feature"><h3>Clair et pratique</h3><p>Sans jargon. Des explications simples et des exemples concrets.</p></div>
-      <div class="prod-feature"><h3>À votre rythme</h3><p>Un format que vous lisez quand vous voulez, autant de fois que vous voulez.</p></div>
-      <div class="prod-feature"><h3>Le bon point de départ</h3><p>Pour comprendre l'approche AEMERA avant d'aller plus loin.</p></div>
+      <div class="prod-feature"><h3>Usage illimité</h3><p>Contrairement à une analyse ponctuelle, le guide se réutilise à chaque question santé. Un investissement durable.</p></div>
+      <div class="prod-feature"><h3>Clair et pratique</h3><p>Sans jargon. Des explications simples, des exemples concrets, des grilles de lecture que vous appliquez immédiatement.</p></div>
+      <div class="prod-feature"><h3>Toujours à jour</h3><p>Contenu révisé régulièrement pour suivre les avancées de l'IA en santé.</p></div>
     </div>
   </div></div>
 </div>
@@ -713,10 +842,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     <p class="choisir-or"><span>ou choisissez une analyse</span></p>
 
     <div class="routeur-grid">
-      <a class="routeur-card phare" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="routeur-icon">🩸</div><h3>Analyse de prise de sang</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price">Bientôt disponible</span></a>
+      <a class="routeur-card phare" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="routeur-icon">🩸</div><h3>Analyse de prise de sang</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price">19 €</span></a>
       <a class="routeur-card" data-nav="produit-symptome"><div class="routeur-icon">🔍</div><h3>Analyse de symptôme</h3><p>Fatigue, douleur, trouble du sommeil — une analyse ciblée.</p><span class="routeur-price">19 €</span></a>
       <a class="routeur-card" data-nav="produit-bilan"><div class="routeur-icon">📊</div><h3>Bilan bien-être global</h3><p>Vue d'ensemble de votre forme, habitudes, axes d'amélioration.</p><span class="routeur-price">14 €</span></a>
-      <a class="routeur-card" data-nav="produit-ebook"><div class="routeur-icon">📖</div><h3>Le guide AEMERA</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price">34 €</span></a>
+      <a class="routeur-card" data-nav="produit-ebook"><div class="routeur-icon">📖</div><h3>Le guide AEMERA</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price">19 €</span></a>
     </div>
   </div></div>
 </div>
@@ -761,6 +890,18 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     <p class="footer-disclaimer">AEMERA est un service informatif. Les rapports ne constituent pas un avis médical et ne remplacent en aucun cas une consultation avec un professionnel de santé. Marque française — données hébergées en Europe.</p>
   </div>
 </footer>
+
+<!-- NEWSLETTER TOAST -->
+<div class="nl-toast" id="nlToast">
+  <button class="nl-toast-close" id="nlClose" aria-label="Fermer">×</button>
+  <h3>Restez informé, sans bruit.</h3>
+  <p>La recherche en santé avance chaque jour. AEMERA garde un œil dessus pour vous et vous prévient — sans spam — quand quelque chose mérite votre attention.</p>
+  <div class="nl-toast-form" id="nlForm">
+    <input type="email" id="nlEmail" placeholder="Votre email" required>
+    <button id="nlSubmit">S'inscrire</button>
+  </div>
+  <div class="nl-toast-ok" id="nlOk">Inscription confirmée — à bientôt dans votre boîte mail. ✓</div>
+</div>
 
 <script>
 var RM = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -1030,6 +1171,40 @@ function showBanner(kind, msg){
   if(q.has('success')||q.has('canceled')){
     history.replaceState(null,'',location.pathname + location.hash);
   }
+})();
+
+/* ═══ NEWSLETTER TOAST ═══ */
+(function(){
+  var toast = document.getElementById('nlToast');
+  var shown = false;
+  // Only show once per session
+  try { if(sessionStorage.getItem('nl-shown')) return; } catch(e){}
+
+  // Observe footer — show toast when user reaches bottom of homepage
+  var footer = document.querySelector('footer');
+  if(footer && 'IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting && !shown && document.getElementById('page-accueil').classList.contains('active')){
+        shown = true;
+        toast.classList.add('show');
+        try { sessionStorage.setItem('nl-shown','1'); } catch(e){}
+        obs.disconnect();
+      }
+    },{threshold:0.3});
+    obs.observe(footer);
+  }
+
+  // Close
+  document.getElementById('nlClose').onclick = function(){ toast.classList.remove('show'); };
+
+  // Submit (simulated)
+  document.getElementById('nlSubmit').onclick = function(){
+    var email = document.getElementById('nlEmail');
+    if(!email.value || email.value.indexOf('@')===-1) { email.focus(); return; }
+    document.getElementById('nlForm').style.display = 'none';
+    document.getElementById('nlOk').style.display = 'block';
+    setTimeout(function(){ toast.classList.remove('show'); }, 3500);
+  };
 })();
 
 /* ═══ INIT ═══ */
