@@ -23,7 +23,12 @@ const PRODUITS = {
   ebook: {
     nom: 'Ebook « Santé IA 2026 »',
     description: 'Guide pratique pour utiliser l\u2019IA au service de votre santé.',
-    montant: 3400, // 34,00 €
+    montant: 1900, // 19,00 €
+  },
+  sang: {
+    nom: 'Analyse de Prise de Sang',
+    description: 'Chaque marqueur de votre prise de sang expliqué en langage clair, livré par mail.',
+    montant: 1900, // 19,00 €
   },
 };
 
@@ -41,6 +46,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Produit inconnu' });
     }
 
+    // Origine du site, pour les URLs de retour (marche en local, preview et prod)
     const origin =
       req.headers.origin ||
       (req.headers.host ? `https://${req.headers.host}` : 'https://aemera.life');
@@ -61,8 +67,10 @@ export default async function handler(req, res) {
           quantity: 1,
         },
       ],
+      // Page de retour : la SPA lit ?success=1 / ?canceled=1
       success_url: `${origin}/?success=1&produit=${encodeURIComponent(produit)}`,
       cancel_url: `${origin}/?canceled=1&produit=${encodeURIComponent(produit)}`,
+      // Collecte l'email pour l'envoi du rapport (cohérent avec le workflow mail)
       customer_creation: 'if_required',
       billing_address_collection: 'auto',
       locale: 'fr',
