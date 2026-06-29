@@ -59,17 +59,21 @@ p{max-width:640px}
 .d1{transition-delay:0s}.d2{transition-delay:.1s}.d3{transition-delay:.2s}.d4{transition-delay:.3s}.d5{transition-delay:.4s}
 @media(prefers-reduced-motion:reduce){.rv,.rv-s,.rv-l,.rv-r{transform:none;transition:none}}
 
-/* ═══ PORTAIL — clair, avec ruban ═══ */
+/* ═══ PORTAIL — clair, réseau santé ═══ */
 .portail{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--pearl) 0%,var(--pearl) 55%,var(--stone) 100%)}
 /* watermark A monogram */
 .portail-mono{position:absolute;bottom:-4%;left:50%;transform:translateX(-50%);width:min(70vh,640px);opacity:.04;z-index:0;pointer-events:none}
 .portail-mono svg{width:100%;height:auto;display:block}
-/* ruban */
-.ruban{position:absolute;right:-4%;bottom:-6%;width:min(62vw,720px);z-index:1;pointer-events:none;filter:drop-shadow(0 24px 40px rgba(10,61,49,.16));clip-path:inset(0 0 100% 0);animation:rubanReveal 2s var(--ease-out-expo) .2s forwards}
-.ruban-float{animation:rubanFloat 12s ease-in-out infinite;will-change:transform}
-.ruban svg{width:100%;height:auto;display:block}
-@keyframes rubanReveal{to{clip-path:inset(0 0 0 0)}}
-@keyframes rubanFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.bio-graphic{position:absolute;right:-2%;bottom:-4%;width:min(58vw,680px);z-index:1;pointer-events:none;opacity:0;transform:scale(.94);animation:bioReveal 1.4s var(--ease-out-expo) .3s forwards}
+.bio-graphic-float{animation:bioFloat 14s ease-in-out infinite;will-change:transform}
+.bio-graphic svg{width:100%;height:auto;display:block}
+.bio-node{transition:r .3s}
+.bio-node-pulse{animation:nodeBreath 4s ease-in-out infinite}
+.bio-node-pulse:nth-of-type(2){animation-delay:1.6s}
+@keyframes bioReveal{to{opacity:1;transform:scale(1)}}
+@keyframes bioFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes nodeBreath{0%,100%{r:4;opacity:1}50%{r:7;opacity:.6}}
 .portail::before{content:'';position:absolute;width:680px;height:680px;top:46%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(132,165,147,.10) 0%,transparent 65%);pointer-events:none;z-index:1}
 .p-ring{position:absolute;border-radius:50%;border:1px solid var(--forest-06);top:46%;left:50%;transform:translate(-50%,-50%);pointer-events:none;animation:ringPulse 7s ease-out infinite;z-index:1}
 .p-ring:nth-of-type(2){animation-delay:2.3s}
@@ -93,8 +97,9 @@ p{max-width:640px}
 .scroll-arrow{width:16px;height:16px;border-right:1.5px solid var(--ink-30);border-bottom:1.5px solid var(--ink-30);transform:rotate(45deg);animation:bounce 2s ease-in-out 4.4s infinite}
 @keyframes bounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
 @media(prefers-reduced-motion:reduce){
-  .ruban{clip-path:inset(0 0 0 0);animation:none}
-  .ruban-float{animation:none}
+  .bio-graphic{opacity:1;transform:scale(1);animation:none}
+  .bio-graphic-float{animation:none}
+  .bio-node-pulse{animation:none}
   .portail-brand,.portail-line,.portail-sub,.scroll-hint{opacity:1;transform:none;animation:none}
   .pulse-main,.pulse-glow{stroke-dashoffset:0;animation:none}
   .p-dot{r:4;animation:none}
@@ -371,6 +376,14 @@ footer .container{display:flex;justify-content:space-between;align-items:center;
 .news-soon{margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-30)}
 @media(max-width:768px){.news-grid{grid-template-columns:1fr}.choisir-free{flex-direction:column;align-items:flex-start}}
 
+/* HISTOIRE */
+.histoire-body p{color:var(--ink);line-height:1.75;margin-bottom:1.3rem;font-size:1.02rem}
+.histoire-download{display:flex;align-items:center;gap:1rem;background:var(--pearl);border:1px solid var(--mist);border-radius:16px;padding:1.3rem 1.5rem;margin:2rem 0;flex-wrap:wrap}
+.histoire-download-ic{font-size:1.8rem;flex:none}
+.histoire-download-info{flex:1;min-width:160px;display:flex;flex-direction:column;gap:.15rem}
+.histoire-download-info strong{font-family:'Poppins',sans-serif;font-weight:500;font-size:.92rem}
+.histoire-download-info span{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ink-60)}
+
 /* PREMIERS PAS */
 .pp-page{max-width:680px;margin:0 auto}
 .pp-head{text-align:center;margin-bottom:3rem}
@@ -414,7 +427,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <a data-nav="produit-sang"><span class="nav-menu-ic">🩸</span><span><strong>Analyse de prise de sang</strong><em>Le plus demandé</em></span></a>
           <a data-nav="produit-symptome"><span class="nav-menu-ic">🔍</span><span><strong>Analyse de symptôme</strong><em>19 €</em></span></a>
           <a data-nav="produit-bilan"><span class="nav-menu-ic">📊</span><span><strong>Bilan bien-être global</strong><em>14 €</em></span></a>
-          <a data-nav="produit-ebook"><span class="nav-menu-ic">📖</span><span><strong>Le guide AEMERA</strong><em>19 €</em></span></a>
+          <a data-nav="produit-ebook"><span class="nav-menu-ic">📖</span><span><strong>Le guide AEMERA</strong><em>34 €</em></span></a>
         </div>
       </li>
       <li><a data-nav="premiers-pas">Premiers pas</a></li>
@@ -422,6 +435,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <li><a data-nav="accueil" data-anchor="faq">FAQ</a></li>
       <li><a class="nav-cta" data-nav="choisir">Commencer</a></li>
     </ul>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
 <div id="payBanner" class="pay-banner" role="status"></div>
@@ -436,23 +450,24 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     <div class="portail-mono">
       <svg viewBox="0 0 400 400"><path d="M200 40 L330 360 L270 360 L200 190 L130 360 L70 360 Z" fill="var(--forest)"/><path d="M200 40 L200 190 L130 360 L70 360 Z" fill="var(--sage)"/></svg>
     </div>
-    <div class="ruban" id="ruban">
-      <div class="ruban-float">
+    <div class="bio-graphic" id="bioGraphic">
+      <div class="bio-graphic-float">
         <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#0A3D31"/>
-              <stop offset="50%" stop-color="#1A6B50"/>
-              <stop offset="100%" stop-color="#84A593"/>
-            </linearGradient>
-            <linearGradient id="rg2" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#84A593"/>
-              <stop offset="100%" stop-color="#1A6B50"/>
-            </linearGradient>
-          </defs>
-          <path d="M120 480 C 200 360, 360 340, 440 240 C 500 165, 470 90, 380 110 C 300 128, 300 220, 380 250 C 470 284, 560 260, 560 360 C 560 460, 430 520, 300 520 C 220 520, 150 520, 120 480 Z" fill="url(#rg)" opacity="0.9"/>
-          <path d="M150 470 C 230 370, 370 350, 430 270 C 475 210, 455 150, 390 165 C 335 178, 340 235, 400 258" fill="none" stroke="url(#rg2)" stroke-width="26" stroke-linecap="round" opacity="0.55"/>
-          <path d="M180 500 C 280 430, 420 410, 500 340" fill="none" stroke="#FAF8F3" stroke-width="3" opacity="0.18"/>
+          <!-- réseau de marqueurs — ligne fine, style data/santé -->
+          <circle cx="380" cy="290" r="170" fill="none" stroke="var(--forest)" stroke-width="1" opacity=".18"/>
+          <circle cx="380" cy="290" r="118" fill="none" stroke="var(--forest)" stroke-width="1" opacity=".14"/>
+          <line x1="380" y1="290" x2="490" y2="190" stroke="var(--forest)" stroke-width="1" opacity=".3"/>
+          <line x1="380" y1="290" x2="500" y2="370" stroke="var(--forest)" stroke-width="1" opacity=".3"/>
+          <line x1="380" y1="290" x2="300" y2="140" stroke="var(--forest)" stroke-width="1" opacity=".3"/>
+          <line x1="380" y1="290" x2="255" y2="400" stroke="var(--forest)" stroke-width="1" opacity=".3"/>
+          <line x1="380" y1="290" x2="430" y2="450" stroke="var(--forest)" stroke-width="1" opacity=".22"/>
+          <path d="M250 290 L320 290 L335 255 L355 320 L370 270 L385 300 L400 290 L460 290" fill="none" stroke="var(--forest-mid)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>
+          <circle class="bio-node" cx="380" cy="290" r="5" fill="var(--forest)"/>
+          <circle class="bio-node bio-node-pulse" cx="490" cy="190" r="4" fill="var(--forest-mid)"/>
+          <circle class="bio-node" cx="500" cy="370" r="4" fill="var(--sage)"/>
+          <circle class="bio-node bio-node-pulse" cx="300" cy="140" r="4" fill="var(--forest-mid)"/>
+          <circle class="bio-node" cx="255" cy="400" r="4" fill="var(--sage)"/>
+          <circle class="bio-node" cx="430" cy="450" r="3.5" fill="var(--sage)"/>
         </svg>
       </div>
     </div>
@@ -528,7 +543,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         <a class="routeur-card phare rv-s d1" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="shine"></div><div class="spot"></div><div class="routeur-icon">🩸</div><h3>J'ai une prise de sang à comprendre</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price"><span data-count="19">0</span> €</span></a>
         <a class="routeur-card rv-s d2" data-nav="produit-symptome"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">🔍</div><h3>J'ai un symptôme précis</h3><p>Fatigue, douleur, trouble du sommeil — une analyse ciblée.</p><span class="routeur-price"><span data-count="19">0</span> €</span></a>
         <a class="routeur-card rv-s d3" data-nav="produit-bilan"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">📊</div><h3>Je veux faire le point</h3><p>Vue d'ensemble de votre forme, habitudes, axes d'amélioration.</p><span class="routeur-price"><span data-count="14">0</span> €</span></a>
-        <a class="routeur-card rv-s d4" data-nav="produit-ebook"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">📖</div><h3>Je veux comprendre l'IA santé</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price"><span data-count="19">0</span> €</span></a>
+        <a class="routeur-card rv-s d4" data-nav="produit-ebook"><div class="shine"></div><div class="spot"></div><div class="routeur-icon">📖</div><h3>Je veux comprendre l'IA santé</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price"><span data-count="34">0</span> €</span></a>
       </div>
     </div>
   </section>
@@ -576,7 +591,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         <div class="faq-item rv d1"><button class="faq-question">Est-ce qu'AEMERA remplace un médecin ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Non, et c'est un choix assumé. AEMERA est un outil d'éclairage : il vous aide à comprendre vos résultats et à préparer vos questions pour votre médecin. Nos rapports sont informatifs et ne constituent jamais un avis médical.</div></div></div>
         <div class="faq-item rv d2"><button class="faq-question">En combien de temps je reçois mon rapport ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">En moins d'une heure après validation de votre commande. Votre rapport personnalisé est livré directement dans votre boîte mail.</div></div></div>
         <div class="faq-item rv d3"><button class="faq-question">Que deviennent mes données de santé ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Vos données sont utilisées uniquement pour générer votre rapport, puis supprimées. Nous ne les revendons jamais, ne les partageons avec aucun tiers, et respectons le RGPD. Pour les analyses de prise de sang, un consentement explicite vous est demandé.</div></div></div>
-        <div class="faq-item rv d4"><button class="faq-question">Quelle est la différence entre vos analyses ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">L'Analyse de Symptôme (19 €) se concentre sur un problème précis. Le Bilan Global (14 €) offre une vue d'ensemble. L'Analyse de Prise de Sang interprète vos résultats marqueur par marqueur. L'Ebook (19 €) est un guide pratique à réutiliser au quotidien pour comprendre l'IA santé.</div></div></div>
+        <div class="faq-item rv d4"><button class="faq-question">Quelle est la différence entre vos analyses ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">L'Analyse de Symptôme (19 €) se concentre sur un problème précis. Le Bilan Global (14 €) offre une vue d'ensemble. L'Analyse de Prise de Sang interprète vos résultats marqueur par marqueur. L'Ebook (34 €) est un guide pratique pour apprendre à faire ses propres analyses de santé avec l'IA, à réutiliser au quotidien.</div></div></div>
         <div class="faq-item rv d5"><button class="faq-question">C'est fiable ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Notre IA s'appuie sur des bases de données médicales validées et croise des milliers de références. Le résultat est un éclairage informé — pas un diagnostic. On vous recommande d'en discuter avec votre médecin, rapport en main.</div></div></div>
       </div>
     </div>
@@ -781,10 +796,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <div>
         <span class="prod-tag">Votre outil au quotidien</span>
         <h1>Le guide AEMERA — l'IA au service de votre santé</h1>
-        <p style="color:var(--ink-60);margin-top:1rem">Ce n'est pas un livre qu'on lit une fois et qu'on oublie. C'est un outil pratique que vous gardez et que vous réutilisez — à chaque prise de sang, à chaque question santé, à chaque rendez-vous médecin.</p>
-        <p style="color:var(--ink-60)">Apprenez à interpréter vos propres données de santé, à comprendre ce que l'IA peut (et ne peut pas) faire pour vous, et à poser les bonnes questions. Contenu à jour, langage clair, exemples concrets. Un investissement que vous rentabilisez dès la première utilisation — et à chaque fois que vous en avez besoin ensuite.</p>
-        <div class="prod-price">19 €<small> / guide</small></div>
-        <a class="btn-primary" data-buy="ebook">Obtenir le guide — 19 €</a>
+        <p style="color:var(--ink-60);margin-top:1rem">Ce guide vous apprend à faire vos propres analyses de santé grâce à l'IA — comprendre une prise de sang, interpréter un symptôme, suivre votre forme dans le temps. Vous n'aurez plus besoin d'attendre un rendez-vous pour décoder ce que vos résultats veulent dire.</p>
+        <p style="color:var(--ink-60)">Pas à pas, vous apprenez à utiliser l'IA à votre avantage : quels outils, quelles questions poser, comment vérifier une information de santé, comment éviter les pièges. Ce n'est pas un livre qu'on lit une fois et qu'on oublie — c'est une méthode que vous gardez et réutilisez à chaque prise de sang, chaque question santé, chaque rendez-vous médecin.</p>
+        <div class="prod-price">34 €<small> / guide</small></div>
+        <a class="btn-primary" data-buy="ebook">Obtenir le guide — 34 €</a>
         <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
       </div>
       <div class="prod-visual">
@@ -845,7 +860,39 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <a class="routeur-card phare" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="routeur-icon">🩸</div><h3>Analyse de prise de sang</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price">19 €</span></a>
       <a class="routeur-card" data-nav="produit-symptome"><div class="routeur-icon">🔍</div><h3>Analyse de symptôme</h3><p>Fatigue, douleur, trouble du sommeil — une analyse ciblée.</p><span class="routeur-price">19 €</span></a>
       <a class="routeur-card" data-nav="produit-bilan"><div class="routeur-icon">📊</div><h3>Bilan bien-être global</h3><p>Vue d'ensemble de votre forme, habitudes, axes d'amélioration.</p><span class="routeur-price">14 €</span></a>
-      <a class="routeur-card" data-nav="produit-ebook"><div class="routeur-icon">📖</div><h3>Le guide AEMERA</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price">19 €</span></a>
+      <a class="routeur-card" data-nav="produit-ebook"><div class="routeur-icon">📖</div><h3>Le guide AEMERA</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price">34 €</span></a>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PAGE — HISTOIRE
+     ═══════════════════════════════════════ -->
+<div class="page" id="page-histoire">
+  <div class="subpage-wrap section"><div class="container" style="max-width:740px">
+    <span class="back-link" data-nav="accueil">← Retour à l'accueil</span>
+    <div class="pp-head" style="text-align:left;max-width:none">
+      <p class="eyebrow" style="display:inline-block">Notre histoire</p>
+      <h1>Pourquoi j'ai créé AEMERA</h1>
+    </div>
+
+    <div class="histoire-body">
+      <p>Je m'appelle Thomas. AEMERA, c'est moi qui l'ai construit, seul, le soir après mon travail.</p>
+      <p>Ce qui m'a poussé à le faire est simple : l'IA appliquée à la santé et à la longévité avance à toute vitesse — et ces technologies, comme beaucoup d'autres avant elles, risquent de devenir un privilège réservé à ceux qui peuvent se les payer. Un système de santé à deux vitesses, où comprendre son propre corps dépendrait de ses moyens. Je trouve ça profondément injuste, et c'est exactement ce contre quoi je veux me battre : donner accès aux mêmes outils, à tout le monde, en commençant par la prévention — le moment où une explication claire change tout.</p>
+      <p>J'ai écrit mon mémoire de fin d'études sur l'intelligence artificielle et la santé en 2023. Trois ans plus tard, le sujet a tellement évolué que certaines parties sont déjà dépassées — mais le cœur du travail reste solide, et je le partage tel qu'il est : 87 pages, en accès libre, ci-dessous.</p>
+
+      <div class="histoire-download">
+        <div class="histoire-download-ic">📄</div>
+        <div class="histoire-download-info">
+          <strong>Mémoire de fin d'études — IA &amp; Santé (2023)</strong>
+          <span>87 pages · PDF · Gratuit</span>
+        </div>
+        <a class="btn-primary" id="memoireDownload" href="/memoire-ia-sante-thomas-2023.pdf" download>Télécharger</a>
+      </div>
+
+      <p>Le guide AEMERA est né de cette conviction : la première étape pour que chacun reprenne la main, c'est d'apprendre à utiliser l'IA soi-même — pour mieux comprendre sa santé aujourd'hui, et mieux vieillir demain. Ce n'est pas réservé à une élite. C'est exactement ce que je veux changer.</p>
+
+      <a class="btn-primary" data-nav="produit-ebook">Découvrir le guide AEMERA →</a>
     </div>
   </div></div>
 </div>
@@ -881,6 +928,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <span class="footer-fr">Marque française</span>
     </div>
     <ul class="footer-links">
+      <li><a data-nav="histoire">Notre histoire</a></li>
       <li><a data-nav="premiers-pas">Premiers pas</a></li>
       <li><a href="mailto:contact@aemera.life">contact@aemera.life</a></li>
       <li><a>Mentions légales</a></li>
@@ -1019,18 +1067,18 @@ bindToggle('apercuM','anim',.25);
   });
 })();
 
-/* ═══ RUBAN parallax (very subtle) ═══ */
+/* ═══ BIO-GRAPHIC parallax (très subtil) ═══ */
 (function(){
   if(RM) return;
-  var ruban=document.getElementById('ruban'); var portail=document.getElementById('portail');
-  if(!ruban||!portail) return;
+  var bio=document.getElementById('bioGraphic'); var portail=document.getElementById('portail');
+  if(!bio||!portail) return;
   portail.addEventListener('mousemove',function(e){
     var r=portail.getBoundingClientRect();
     var dx=((e.clientX-r.left)/r.width-.5)*2;
     var dy=((e.clientY-r.top)/r.height-.5)*2;
-    ruban.style.transform='translate('+(dx*12)+'px,'+(dy*12)+'px)';
+    bio.style.transform='translate('+(dx*14)+'px,'+(dy*14)+'px)';
   });
-  portail.addEventListener('mouseleave',function(){ ruban.style.transform='translate(0,0)'; });
+  portail.addEventListener('mouseleave',function(){ bio.style.transform='translate(0,0)'; });
 })();
 
 /* ═══ NAV show/shrink (accueil) ═══ */
@@ -1050,9 +1098,12 @@ function updateNav(){
 })();
 
 /* ═══ Mobile toggle ═══ */
-document.getElementById('navToggle').addEventListener('click',function(){
-  document.getElementById('navLinks').classList.toggle('open');
-});
+var navToggleBtn = document.getElementById('navToggle');
+if(navToggleBtn){
+  navToggleBtn.addEventListener('click',function(){
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+}
 
 /* ═══ FAQ ═══ */
 document.querySelectorAll('.faq-question').forEach(function(btn){
