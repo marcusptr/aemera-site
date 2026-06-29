@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.stripe.com/v3/" defer></script>
 <style>
 :root {
   --stone: #EAE5DB;
@@ -58,6 +58,8 @@ p{max-width:640px}
 .rv-r.vis{opacity:1;transform:translateX(0)}
 .d1{transition-delay:0s}.d2{transition-delay:.1s}.d3{transition-delay:.2s}.d4{transition-delay:.3s}.d5{transition-delay:.4s}
 @media(prefers-reduced-motion:reduce){.rv,.rv-s,.rv-l,.rv-r{opacity:1;transform:none;transition:none}}
+/* Le hero (premier écran après le portail) est toujours visible — pas de reveal JS nécessaire */
+#hero .rv,#hero .rv-s,#hero .rv-l,#hero .rv-r{opacity:1;transform:none}
 
 /* ═══ PORTAIL — clair, avec ruban ═══ */
 .portail{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(160deg,var(--pearl) 0%,var(--pearl) 55%,var(--stone) 100%)}
@@ -774,11 +776,13 @@ function showPage(name, anchor){
   el.classList.add('active');
   if(location.hash !== '#'+name) history.replaceState(null,'',(name==='accueil'?'#accueil':'#'+name));
   // re-run reveal for the now-visible page
-  setTimeout(function(){
+  // Double-rAF : attend que le navigateur ait fait au moins 1 cycle complet de layout+paint
+  // avant de calculer les positions (corrige le bug d'éléments invisibles au premier chargement)
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){
     initReveals(el);
     if(name==='accueil'){ updateNav(); }
     else { document.getElementById('nav').classList.add('show'); }
-  },20);
+  });});
   if(anchor){
     setTimeout(function(){
       var t=document.getElementById(anchor);
@@ -1033,7 +1037,7 @@ function showBanner(kind, msg){
 (function(){
   var initial=(location.hash||'#accueil').replace('#','');
   showPage(initial);
-  initReveals(document.getElementById('page-accueil'));
+  // initReveals is called by showPage via double-rAF — no direct call here
   updateNav();
 })();
 </script>
