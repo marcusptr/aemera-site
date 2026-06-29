@@ -22,8 +22,8 @@ const PRODUITS = {
   },
   ebook: {
     nom: 'Ebook « Santé IA 2026 »',
-    description: 'Guide pratique pour utiliser l\u2019IA au service de votre santé.',
-    montant: 1900, // 19,00 €
+    description: 'Apprenez à faire vos propres analyses de santé grâce à l\u2019IA.',
+    montant: 3400, // 34,00 €
   },
   sang: {
     nom: 'Analyse de Prise de Sang',
