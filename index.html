@@ -344,18 +344,20 @@ footer .container{display:flex;justify-content:space-between;align-items:center;
 @media(max-width:480px){.steps-grid{grid-template-columns:1fr}}
 
 /* NEWSLETTER TOAST */
-.nl-toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:150;width:380px;max-width:calc(100vw - 2rem);background:var(--pearl);border:1px solid var(--mist);border-radius:20px;box-shadow:0 16px 48px rgba(10,61,49,.12);padding:1.8rem;opacity:0;transform:translateY(20px);transition:opacity .5s var(--ease-out-expo),transform .5s var(--ease-out-expo);pointer-events:none}
-.nl-toast.show{opacity:1;transform:translateY(0);pointer-events:all}
-.nl-toast-close{position:absolute;top:.8rem;right:1rem;background:none;border:none;font-size:1.2rem;color:var(--ink-30);cursor:pointer;padding:.3rem}
-.nl-toast h3{font-size:1rem;margin-bottom:.6rem;padding-right:1.5rem}
-.nl-toast p{font-size:.82rem;color:var(--ink-60);margin-bottom:1rem}
-.nl-toast-form{display:flex;gap:.5rem}
-.nl-toast-form input{flex:1;padding:.55rem .8rem;border:1px solid var(--mist);border-radius:10px;font-family:'Nunito Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s}
+.nl-modal-backdrop{position:fixed;inset:0;z-index:300;background:rgba(43,40,35,.4);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;visibility:hidden;transition:opacity .4s var(--ease-out-expo);pointer-events:none}
+.nl-modal-backdrop.show{opacity:1;visibility:visible;pointer-events:all}
+.nl-modal-card{background:var(--pearl);border-radius:24px;box-shadow:0 24px 64px rgba(10,61,49,.2);padding:2.4rem;max-width:440px;width:100%;position:relative;transform:translateY(18px) scale(.96);transition:transform .4s var(--ease-out-expo)}
+.nl-modal-backdrop.show .nl-modal-card{transform:translateY(0) scale(1)}
+.nl-toast-close{position:absolute;top:1rem;right:1.2rem;background:none;border:none;font-size:1.4rem;color:var(--ink-30);cursor:pointer;padding:.3rem;line-height:1}
+.nl-toast-close:hover{color:var(--ink)}
+.nl-modal-card h3{font-size:1.15rem;margin-bottom:.7rem;padding-right:1.5rem}
+.nl-modal-card p{font-size:.9rem;color:var(--ink-60);margin-bottom:1.3rem;line-height:1.6}
+.nl-toast-form{display:flex;flex-direction:column;gap:.7rem}
+.nl-toast-form input{padding:.75rem 1rem;border:1px solid var(--mist);border-radius:10px;font-family:'Nunito Sans',sans-serif;font-size:.92rem;outline:none;transition:border-color .2s}
 .nl-toast-form input:focus{border-color:var(--forest-mid)}
-.nl-toast-form button{flex:none;padding:.55rem 1rem;border:none;border-radius:10px;background:var(--forest);color:var(--pearl);font-family:'Poppins',sans-serif;font-weight:500;font-size:.8rem;cursor:pointer;transition:background .2s}
+.nl-toast-form button{padding:.75rem 1rem;border:none;border-radius:10px;background:var(--forest);color:var(--pearl);font-family:'Poppins',sans-serif;font-weight:500;font-size:.88rem;cursor:pointer;transition:background .2s}
 .nl-toast-form button:hover{background:var(--forest-mid)}
-.nl-toast-ok{display:none;font-size:.85rem;color:var(--forest);font-weight:500}
-@media(max-width:480px){.nl-toast{bottom:0;right:0;max-width:100%;border-radius:20px 20px 0 0}}
+.nl-toast-ok{display:none;font-size:.92rem;color:var(--forest);font-weight:500}
 
 /* CHOISIR */
 .choisir-free{display:flex;align-items:center;justify-content:space-between;gap:2rem;background:var(--forest);color:var(--pearl);border-radius:20px;padding:2.2rem 2.5rem;margin-bottom:1rem;flex-wrap:wrap}
@@ -430,6 +432,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <a data-nav="produit-ebook"><span class="nav-menu-ic">📖</span><span><strong>Le guide AEMERA</strong><em>34 €</em></span></a>
         </div>
       </li>
+      <li><a data-nav="histoire">Notre histoire</a></li>
       <li><a data-nav="premiers-pas">Premiers pas</a></li>
       <li><a data-nav="news">News</a></li>
       <li><a data-nav="accueil" data-anchor="faq">FAQ</a></li>
@@ -939,16 +942,18 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
   </div>
 </footer>
 
-<!-- NEWSLETTER TOAST -->
-<div class="nl-toast" id="nlToast">
-  <button class="nl-toast-close" id="nlClose" aria-label="Fermer">×</button>
-  <h3>Restez informé, sans bruit.</h3>
-  <p>La recherche en santé avance chaque jour. AEMERA garde un œil dessus pour vous et vous prévient — sans spam — quand quelque chose mérite votre attention.</p>
-  <div class="nl-toast-form" id="nlForm">
-    <input type="email" id="nlEmail" placeholder="Votre email" required>
-    <button id="nlSubmit">S'inscrire</button>
+<!-- NEWSLETTER MODAL -->
+<div class="nl-modal-backdrop" id="nlBackdrop">
+  <div class="nl-modal-card" id="nlToast">
+    <button class="nl-toast-close" id="nlClose" aria-label="Fermer">×</button>
+    <h3>Restez informé, sans bruit.</h3>
+    <p>La recherche en santé avance chaque jour. AEMERA garde un œil dessus pour vous et vous prévient — sans spam — quand quelque chose mérite votre attention.</p>
+    <div class="nl-toast-form" id="nlForm">
+      <input type="email" id="nlEmail" placeholder="Votre email" required>
+      <button id="nlSubmit">S'inscrire</button>
+    </div>
+    <div class="nl-toast-ok" id="nlOk">Inscription confirmée — à bientôt dans votre boîte mail. ✓</div>
   </div>
-  <div class="nl-toast-ok" id="nlOk">Inscription confirmée — à bientôt dans votre boîte mail. ✓</div>
 </div>
 
 <script>
@@ -1224,20 +1229,29 @@ function showBanner(kind, msg){
   }
 })();
 
-/* ═══ NEWSLETTER TOAST ═══ */
+/* ═══ NEWSLETTER MODAL (bloquant, plein écran) ═══ */
 (function(){
-  var toast = document.getElementById('nlToast');
+  var backdrop = document.getElementById('nlBackdrop');
   var shown = false;
   // Only show once per session
   try { if(sessionStorage.getItem('nl-shown')) return; } catch(e){}
 
-  // Observe footer — show toast when user reaches bottom of homepage
+  function open(){
+    backdrop.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function close(){
+    backdrop.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  // Observe footer — show modal when user reaches bottom of homepage
   var footer = document.querySelector('footer');
   if(footer && 'IntersectionObserver' in window){
     var obs = new IntersectionObserver(function(entries){
       if(entries[0].isIntersecting && !shown && document.getElementById('page-accueil').classList.contains('active')){
         shown = true;
-        toast.classList.add('show');
+        open();
         try { sessionStorage.setItem('nl-shown','1'); } catch(e){}
         obs.disconnect();
       }
@@ -1245,8 +1259,8 @@ function showBanner(kind, msg){
     obs.observe(footer);
   }
 
-  // Close
-  document.getElementById('nlClose').onclick = function(){ toast.classList.remove('show'); };
+  // Close — uniquement via la croix (clic sur le fond ne ferme pas, comportement bloquant voulu)
+  document.getElementById('nlClose').onclick = close;
 
   // Submit (simulated)
   document.getElementById('nlSubmit').onclick = function(){
@@ -1254,7 +1268,7 @@ function showBanner(kind, msg){
     if(!email.value || email.value.indexOf('@')===-1) { email.focus(); return; }
     document.getElementById('nlForm').style.display = 'none';
     document.getElementById('nlOk').style.display = 'block';
-    setTimeout(function(){ toast.classList.remove('show'); }, 3500);
+    setTimeout(close, 2200);
   };
 })();
 
