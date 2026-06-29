@@ -1245,9 +1245,9 @@ function showBanner(kind, msg){
     document.body.style.overflow = '';
   }
 
-  // Observe footer — show modal when user reaches bottom of homepage
-  var footer = document.querySelector('footer');
-  if(footer && 'IntersectionObserver' in window){
+  // Observe la section juste après les produits — se déclenche dès qu'on a fini de scroller le routeur
+  var trigger = document.getElementById('comment');
+  if(trigger && 'IntersectionObserver' in window){
     var obs = new IntersectionObserver(function(entries){
       if(entries[0].isIntersecting && !shown && document.getElementById('page-accueil').classList.contains('active')){
         shown = true;
@@ -1255,8 +1255,8 @@ function showBanner(kind, msg){
         try { sessionStorage.setItem('nl-shown','1'); } catch(e){}
         obs.disconnect();
       }
-    },{threshold:0.3});
-    obs.observe(footer);
+    },{threshold:0.15});
+    obs.observe(trigger);
   }
 
   // Close — uniquement via la croix (clic sur le fond ne ferme pas, comportement bloquant voulu)
