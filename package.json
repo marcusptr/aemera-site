@@ -5,6 +5,7 @@
   "description": "AEMERA — site SPA + API Stripe Checkout",
   "type": "module",
   "dependencies": {
-    "stripe": "^16.12.0"
+    "stripe": "^16.12.0",
+    "@supabase/supabase-js": "^2.45.4"
   }
 }
