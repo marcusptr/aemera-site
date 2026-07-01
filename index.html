@@ -653,10 +653,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 
           <form class="pp-form" id="ppForm">
             <input type="email" id="ppEmail" placeholder="Votre adresse email" required>
-            <button type="submit" class="btn-primary">Recevoir le guide AEMERA (gratuit)</button>
+            <button type="submit" class="btn-primary">Télécharger mon guide AEMERA (gratuit)</button>
           </form>
-          <div class="pp-success" id="ppSuccess">Merci ! Votre guide arrive dans votre boîte mail. ✓</div>
-          <p class="pp-legal">En vous inscrivant, vous acceptez de recevoir le guide AEMERA par email. Données protégées (RGPD), jamais revendues. Informatif, ne remplace pas un avis médical.</p>
+          <div class="pp-success" id="ppSuccess">Merci ! Votre téléchargement démarre. <a id="ppDownloadLink" href="/aemera-comment-ca-marche.pdf" download style="color:var(--forest);text-decoration:underline">Cliquez ici si rien ne se passe</a>.</div>
+          <p class="pp-legal">En vous inscrivant, vous acceptez d'être recontacté par AEMERA. Données protégées (RGPD), jamais revendues. Informatif, ne remplace pas un avis médical.</p>
         </div>
       </div>
     </div>
@@ -1191,6 +1191,19 @@ magnetic(document.getElementById('ctaFinal'));
     if(!email) return;
     document.getElementById('ppSuccess').classList.add('show');
     form.style.display='none';
+    // Déclenche le téléchargement réel du PDF immédiatement (ne dépend pas du réseau)
+    var a=document.createElement('a');
+    a.href='/aemera-comment-ca-marche.pdf';
+    a.download='';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    // Capture l'email dans Supabase, en tâche de fond (aucun email envoyé)
+    fetch('/api/capture-lead', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email: email })
+    }).catch(function(err){ console.error('Erreur capture-lead:', err); });
   });
 })();
 
