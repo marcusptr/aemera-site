@@ -29,7 +29,7 @@ const PRODUITS = {
     produitDb: 'bilan',
   },
   ebook: {
-    nom: 'Ebook « Santé IA 2026 »',
+    nom: 'La Méthode AEMERA',
     description: 'Apprenez à faire vos propres analyses de santé grâce à l\u2019IA.',
     montant: 3400, // 34,00 €
     produitDb: 'ebook',
