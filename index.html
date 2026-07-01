@@ -385,6 +385,11 @@ footer .container{display:flex;justify-content:space-between;align-items:center;
 .histoire-download-info{flex:1;min-width:160px;display:flex;flex-direction:column;gap:.15rem}
 .histoire-download-info strong{font-family:'Poppins',sans-serif;font-weight:500;font-size:.92rem}
 .histoire-download-info span{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ink-60)}
+.histoire-download-form{display:flex;align-items:center;gap:1rem;background:var(--pearl);border:1px solid var(--mist);border-radius:16px;padding:1.3rem 1.5rem;margin:2rem 0;flex-wrap:wrap}
+.histoire-download-form input{flex:1;min-width:160px;padding:.7rem 1rem;border:1px solid var(--mist);border-radius:10px;font-family:'Nunito Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.histoire-download-form input:focus{border-color:var(--forest-mid)}
+.histoire-download-ok{background:var(--sage-12);border-radius:14px;padding:1rem 1.3rem;font-size:.88rem;color:var(--forest);margin:2rem 0}
+.histoire-download-ok a{color:var(--forest);text-decoration:underline}
 
 /* PREMIERS PAS */
 .pp-page{max-width:680px;margin:0 auto}
@@ -429,7 +434,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <a data-nav="produit-sang"><span class="nav-menu-ic">🩸</span><span><strong>Analyse de prise de sang</strong><em>Le plus demandé</em></span></a>
           <a data-nav="produit-symptome"><span class="nav-menu-ic">🔍</span><span><strong>Analyse de symptôme</strong><em>19 €</em></span></a>
           <a data-nav="produit-bilan"><span class="nav-menu-ic">📊</span><span><strong>Bilan bien-être global</strong><em>14 €</em></span></a>
-          <a data-nav="produit-ebook"><span class="nav-menu-ic">📖</span><span><strong>Le guide AEMERA</strong><em>34 €</em></span></a>
+          <a data-nav="produit-ebook"><span class="nav-menu-ic">📖</span><span><strong>La Méthode AEMERA</strong><em>34 €</em></span></a>
         </div>
       </li>
       <li><a data-nav="histoire">Notre histoire</a></li>
@@ -594,7 +599,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         <div class="faq-item rv d1"><button class="faq-question">Est-ce qu'AEMERA remplace un médecin ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Non, et c'est un choix assumé. AEMERA est un outil d'éclairage : il vous aide à comprendre vos résultats et à préparer vos questions pour votre médecin. Nos rapports sont informatifs et ne constituent jamais un avis médical.</div></div></div>
         <div class="faq-item rv d2"><button class="faq-question">En combien de temps je reçois mon rapport ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">En moins d'une heure après validation de votre commande. Votre rapport personnalisé est livré directement dans votre boîte mail.</div></div></div>
         <div class="faq-item rv d3"><button class="faq-question">Que deviennent mes données de santé ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Vos données sont utilisées uniquement pour générer votre rapport, puis supprimées. Nous ne les revendons jamais, ne les partageons avec aucun tiers, et respectons le RGPD. Pour les analyses de prise de sang, un consentement explicite vous est demandé.</div></div></div>
-        <div class="faq-item rv d4"><button class="faq-question">Quelle est la différence entre vos analyses ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">L'Analyse de Symptôme (19 €) se concentre sur un problème précis. Le Bilan Global (14 €) offre une vue d'ensemble. L'Analyse de Prise de Sang interprète vos résultats marqueur par marqueur. L'Ebook (34 €) est un guide pratique pour apprendre à faire ses propres analyses de santé avec l'IA, à réutiliser au quotidien.</div></div></div>
+        <div class="faq-item rv d4"><button class="faq-question">Quelle est la différence entre vos analyses ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">L'Analyse de Symptôme (19 €) se concentre sur un problème précis. Le Bilan Global (14 €) offre une vue d'ensemble. L'Analyse de Prise de Sang interprète vos résultats marqueur par marqueur. La Méthode AEMERA (34 €) est un guide pratique pour apprendre à faire ses propres analyses de santé avec l'IA, à réutiliser au quotidien.</div></div></div>
         <div class="faq-item rv d5"><button class="faq-question">C'est fiable ?<span class="faq-icon"></span></button><div class="faq-answer"><div class="faq-answer-inner">Notre IA s'appuie sur des bases de données médicales validées et croise des milliers de références. Le résultat est un éclairage informé — pas un diagnostic. On vous recommande d'en discuter avec votre médecin, rapport en main.</div></div></div>
       </div>
     </div>
@@ -798,16 +803,16 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     <div class="prod-hero">
       <div>
         <span class="prod-tag">Votre outil au quotidien</span>
-        <h1>Le guide AEMERA — l'IA au service de votre santé</h1>
+        <h1>La Méthode AEMERA — l'IA au service de votre santé</h1>
         <p style="color:var(--ink-60);margin-top:1rem">Ce guide vous apprend à faire vos propres analyses de santé grâce à l'IA — comprendre une prise de sang, interpréter un symptôme, suivre votre forme dans le temps. Vous n'aurez plus besoin d'attendre un rendez-vous pour décoder ce que vos résultats veulent dire.</p>
         <p style="color:var(--ink-60)">Pas à pas, vous apprenez à utiliser l'IA à votre avantage : quels outils, quelles questions poser, comment vérifier une information de santé, comment éviter les pièges. Ce n'est pas un livre qu'on lit une fois et qu'on oublie — c'est une méthode que vous gardez et réutilisez à chaque prise de sang, chaque question santé, chaque rendez-vous médecin.</p>
         <div class="prod-price">34 €<small> / guide</small></div>
-        <a class="btn-primary" data-buy="ebook">Obtenir le guide — 34 €</a>
+        <a class="btn-primary" data-buy="ebook">Obtenir la Méthode — 34 €</a>
         <p class="prod-legal">Informatif, ne remplace pas un avis médical.</p>
       </div>
       <div class="prod-visual">
         <div class="prod-mockup">
-          <div class="mockup-header"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-title">Guide AEMERA — PDF</span></div>
+          <div class="mockup-header"><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-title">Méthode AEMERA — PDF</span></div>
           <div class="mockup-section">Comprendre vos marqueurs</div>
           <div class="mockup-text"></div><div class="mockup-text"></div><div class="mockup-text short"></div>
           <div class="mockup-section">L'IA et votre santé</div>
@@ -863,7 +868,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <a class="routeur-card phare" data-nav="produit-sang"><span class="badge">Le plus demandé</span><div class="routeur-icon">🩸</div><h3>Analyse de prise de sang</h3><p>Uploadez vos résultats — chaque marqueur expliqué clairement.</p><span class="routeur-price">19 €</span></a>
       <a class="routeur-card" data-nav="produit-symptome"><div class="routeur-icon">🔍</div><h3>Analyse de symptôme</h3><p>Fatigue, douleur, trouble du sommeil — une analyse ciblée.</p><span class="routeur-price">19 €</span></a>
       <a class="routeur-card" data-nav="produit-bilan"><div class="routeur-icon">📊</div><h3>Bilan bien-être global</h3><p>Vue d'ensemble de votre forme, habitudes, axes d'amélioration.</p><span class="routeur-price">14 €</span></a>
-      <a class="routeur-card" data-nav="produit-ebook"><div class="routeur-icon">📖</div><h3>Le guide AEMERA</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price">34 €</span></a>
+      <a class="routeur-card" data-nav="produit-ebook"><div class="routeur-icon">📖</div><h3>La Méthode AEMERA</h3><p>Guide pratique pour décoder l'IA appliquée à votre santé.</p><span class="routeur-price">34 €</span></a>
     </div>
   </div></div>
 </div>
@@ -880,22 +885,33 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     </div>
 
     <div class="histoire-body">
-      <p>Je m'appelle Thomas. AEMERA, c'est moi qui l'ai construit, seul, le soir après mon travail.</p>
-      <p>Ce qui m'a poussé à le faire est simple : l'IA appliquée à la santé et à la longévité avance à toute vitesse — et ces technologies, comme beaucoup d'autres avant elles, risquent de devenir un privilège réservé à ceux qui peuvent se les payer. Un système de santé à deux vitesses, où comprendre son propre corps dépendrait de ses moyens. Je trouve ça profondément injuste, et c'est exactement ce contre quoi je veux me battre : donner accès aux mêmes outils, à tout le monde, en commençant par la prévention — le moment où une explication claire change tout.</p>
-      <p>J'ai écrit mon mémoire de fin d'études sur l'intelligence artificielle et la santé en 2023. Trois ans plus tard, le sujet a tellement évolué que certaines parties sont déjà dépassées — mais le cœur du travail reste solide, et je le partage tel qu'il est : 87 pages, en accès libre, ci-dessous.</p>
+      <p>J'ai décidé de créer AEMERA parce que l'IA appliquée à la santé et à la longévité avance à toute vitesse — et ces technologies, comme beaucoup d'autres avant elles, risquent de devenir un privilège réservé à ceux qui peuvent se les payer.</p>
+      <p>Un système de santé à deux vitesses, où comprendre son propre corps dépendrait de ses moyens. Je trouve ça profondément injuste, et c'est exactement ce contre quoi je veux me battre : donner accès aux mêmes outils, à tout le monde, en commençant par la prévention — le moment où une explication claire change tout.</p>
+      <p>J'ai écrit mon mémoire de fin d'études sur l'intelligence artificielle et la santé en 2023. Depuis, le sujet continue d'évoluer à une vitesse impressionnante — de nouvelles avancées arrivent chaque mois — mais le cœur du travail reste solide, et je le partage tel qu'il est : 87 pages, ci-dessous.</p>
 
-      <div class="histoire-download">
+      <div class="histoire-download" id="histoireDownloadBlock">
         <div class="histoire-download-ic">📄</div>
         <div class="histoire-download-info">
           <strong>Mémoire de fin d'études — IA &amp; Santé (2023)</strong>
-          <span>87 pages · PDF · Gratuit</span>
+          <span>87 pages · PDF · Recevez-le par email</span>
         </div>
-        <a class="btn-primary" id="memoireDownload" href="/memoire-ia-sante-thomas-2023.pdf" download>Télécharger</a>
+        <button type="button" class="btn-primary" id="memoireUnlockBtn">Recevoir le PDF</button>
       </div>
 
-      <p>Le guide AEMERA est né de cette conviction : la première étape pour que chacun reprenne la main, c'est d'apprendre à utiliser l'IA soi-même — pour mieux comprendre sa santé aujourd'hui, et mieux vieillir demain. Ce n'est pas réservé à une élite. C'est exactement ce que je veux changer.</p>
+      <form class="histoire-download-form" id="histoireDownloadForm" style="display:none">
+        <div class="histoire-download-ic">📄</div>
+        <div class="histoire-download-info" style="flex:1 1 100%">
+          <strong>Où doit-on vous l'envoyer ?</strong>
+          <span>Votre email, rien d'autre. Pas de spam.</span>
+        </div>
+        <input type="email" id="histoireEmail" placeholder="Votre email" required>
+        <button type="submit" class="btn-primary">Recevoir le PDF</button>
+      </form>
+      <p class="histoire-download-ok" id="histoireDownloadOk" style="display:none">Merci ! Le téléchargement démarre, et une copie part aussi par email. <a id="memoireDownload" href="/memoire-ia-sante-thomas-2023.pdf" download>Cliquez ici si rien ne se passe</a>.</p>
 
-      <a class="btn-primary" data-nav="produit-ebook">Découvrir le guide AEMERA →</a>
+      <p>La Méthode AEMERA est née de cette conviction : la première étape pour que chacun reprenne la main, c'est d'apprendre à utiliser l'IA soi-même — pour mieux comprendre sa santé aujourd'hui, et mieux vieillir demain. Ce n'est pas réservé à une élite. C'est exactement ce que je veux changer.</p>
+
+      <a class="btn-primary" data-nav="produit-ebook">Découvrir la Méthode AEMERA →</a>
     </div>
   </div></div>
 </div>
@@ -1153,7 +1169,7 @@ magnetic(document.getElementById('ctaFinal'));
   function profile(age,ia,worry){
     if(worry>=7) return {n:'En quête de réponses',d:"Vous traversez une période d'inquiétude. L'Analyse de Symptôme ou de Prise de Sang vous donnera des réponses claires, vite — pour aborder votre médecin l'esprit plus tranquille."};
     if(ia>=7 && worry<=4) return {n:'Curieux averti',d:"À l'aise avec la technologie et plutôt serein, vous voulez comprendre votre santé en profondeur. Le Bilan Bien-Être Global est un excellent point de départ."};
-    if(ia<=3) return {n:'Observateur prudent',d:"Vous découvrez l'IA santé en avançant prudemment. Le guide AEMERA est fait pour vous : il explique tout, simplement, avant d'aller plus loin."};
+    if(ia<=3) return {n:'Observateur prudent',d:"Vous découvrez l'IA santé en avançant prudemment. La Méthode AEMERA est faite pour vous : elle explique tout, simplement, avant d'aller plus loin."};
     return {n:'Explorateur serein',d:"Vous voulez faire le point sans urgence particulière. Le Bilan Bien-Être Global vous offrira une vue d'ensemble claire de votre forme."};
   }
   function update(){
@@ -1270,6 +1286,36 @@ function showBanner(kind, msg){
     document.getElementById('nlOk').style.display = 'block';
     setTimeout(close, 2200);
   };
+})();
+
+/* ═══ HISTOIRE — capture email obligatoire avant téléchargement du mémoire ═══ */
+(function(){
+  var unlockBtn = document.getElementById('memoireUnlockBtn');
+  var block = document.getElementById('histoireDownloadBlock');
+  var form = document.getElementById('histoireDownloadForm');
+  var ok = document.getElementById('histoireDownloadOk');
+  if(!unlockBtn || !form) return;
+
+  unlockBtn.addEventListener('click', function(){
+    block.style.display = 'none';
+    form.style.display = 'flex';
+    document.getElementById('histoireEmail').focus();
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('histoireEmail');
+    if(!email.value || email.value.indexOf('@')===-1){ email.focus(); return; }
+    form.style.display = 'none';
+    ok.style.display = 'block';
+    // Déclenche le téléchargement réel du PDF
+    var a = document.createElement('a');
+    a.href = '/memoire-ia-sante-thomas-2023.pdf';
+    a.download = '';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
 })();
 
 /* ═══ INIT ═══ */
